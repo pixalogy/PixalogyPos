@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>department Management</title>
+
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+</head>
+<body ng-app="MainDashDepart">
+
+	<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" >Department Management</a>
+    </div>
+    
+  </div>
+</nav>
+  
+<div class="container" ng-controller="departadd" ng-init="showde()">
+  <h3>Department Management</h3>
+  <p>Add your Department details here..</p><br><hr><br>
+
+
+
+<div class="row">
+      
+      <div class="col-sm-12" ng-hide="inserttask">
+         
+      <div class="alert alert-success">
+  <strong>Success!</strong> Department details has been inserted.
+</div>
+
+   
+
+
+      </div>
+    </div>
+
+
+    <div class="row">
+      
+      <div class="col-sm-12" ng-hide="uptask">
+         
+      <div class="alert alert-success">
+  <strong>Success!</strong> Department details has been Updated.
+</div>
+
+   
+
+
+      </div>
+    </div>
+
+
+
+
+<div class="row">
+	<form name="departmentform">
+  <div class="col-sm-4"><input type="text" class="form-control" placeholder="Department ID" ng-model="DepartmentId" disabled ></div>
+  <div class="col-sm-4"><input type="text" class="form-control" placeholder="Department Name" ng-model="DepertmentName" required></div>
+  <div class="col-sm-4"><button type="button" class="btn btn-primary" ng-disabled="departmentform.$invalid" ng-click="insertDepartment()" ng-hide="addbtn">Add Department</button><button type="button" class="btn btn-primary" ng-hide="updatetask" ng-click="updatede()" >Update</button><button type="button" class="btn btn-primary" ng-hide="updatetask" ng-click="clear()" >Cancel</button></div>
+  
+  <div class="col-sm-4"></div>
+  <div class="col-sm-4"></div>
+  </form>
+</div><br>
+
+
+<div class="row">
+	
+  
+  
+</div><br>
+
+
+
+<table class="table table-bordered table-hover">
+    <thead >
+      <tr class="active">
+        <th>Department ID</th>
+        <th>Department Name</th>
+        <th>Delete</th>
+        <th>Update</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="x in names">
+        <td>{{ x.departmentID }}</td>
+        <td>{{ x.Name }}</td>
+        <td><button type="button" class="btn btn-danger" ng-click="deletedepart(x.departmentID)">Delete</button></td>
+        <td><button type="button" class="btn btn-success" ng-click="updatebranch(x.departmentID,x.Name )">Edit</button></td>
+        
+      </tr>
+    </tbody>
+  </table>
+
+
+</div>
+
+
+<script >
+	
+var app = angular.module("MainDashDepart", []);
+
+app.controller("departadd", function($scope,$http) {
+
+
+	$scope.inserttask=true;
+	$scope.updatetask=true;
+	$scope.uptask=true;
+
+
+	$scope.insertDepartment=function(){
+
+          
+
+          $http.post("insertdepartment.php", {
+    'DepertmentName':$scope.DepertmentName,
+    
+    
+
+
+})        
+
+  .then(function (response) {
+   
+   
+     $scope.DepertmentName="";
+     $scope.inserttask=false;
+
+     $scope.showde();
+     $scope.uptask=true;
+  
+
+
+});
+
+
+
+	}
+
+	$scope.showde=function(){
+
+
+       $http.get("showdepartment.php")
+   .then(function (response) {$scope.names = response.data.records;});
+
+
+
+	}
+
+	$scope.deletedepart=function(departmentID){
+
+          $scope.inserttask=true;
+
+		 if(confirm("Are you sure?")){
+
+
+        
+          $http.post("deletedepartment.php", {
+    'departmentID':departmentID,
+  
+    
+
+
+})        
+
+  .then(function (response) {
+   
+   
+    
+    $scope.showde();
+
+    $scope.uptask=true;
+
+    
+
+
+});
+
+
+   }
+   else{
+
+    return false;
+   }
+
+
+
+
+
+
+	}
+
+
+	$scope.updatebranch=function(departmentID,name){
+
+
+
+		$scope.DepartmentId=departmentID;
+		$scope.DepertmentName=name;
+
+		$scope.updatetask=false;
+
+		$scope.addbtn=true;
+		$scope.uptask=true;
+
+		$scope.inserttask=true;
+
+
+
+
+
+
+
+
+
+	}
+
+	$scope.clear=function(){
+
+      $scope.updatetask=true;
+      $scope.addbtn=false;
+      $scope.DepartmentId="";
+      $scope.DepertmentName="";
+      $scope.uptask=true;
+
+
+
+	}
+
+	$scope.updatede=function(){
+
+
+
+
+       $http.post("updatedepartment.php", {
+      'DepartmentId':$scope.DepartmentId,
+    'DepertmentName':$scope.DepertmentName,
+    
+    
+
+
+})        
+
+  .then(function (response) {
+   
+    
+
+
+    $scope.showde();
+    $scope.DepertmentName="";
+
+    $scope.uptask=false;
+
+    
+
+
+
+
+   
+
+
+});
+
+
+
+
+
+
+
+
+	}
+
+
+
+
+
+
+})
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

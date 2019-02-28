@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html ng-app="systemacc">
+<head>
+	<title>System Account Managament</title>
+
+
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
+
+  
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+
+
+
+
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+
+
+
+
+
+</head>
+<body>
+
+
+ <br>
+
+  <div class="container" style="border:1px solid #cecece; background-color: #F8F9F9  ;" ng-controller="systemcon" >
+
+  <div class="well  well-sm"><h4 class="color-primary">System Account Management</h4></div><br>
+
+  <div class="row">
+  	 <div class="form-group">
+    <label for="exampleInputEmail1">Search Employee</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Search" ng-model="searchemp">
+    
+  </div>
+  </div>
+
+   <div class="row justify-content-center" ng-init="showemp()">
+   	
+<table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+            	<th>Add</th>
+
+                
+                <th>Name</th>
+                <th>Address</th>
+                <th>Phone number</th>
+                <th>NIC</th>
+                <th>Gender</th>
+                <th>Designation</th>
+                <th>Branch</th>
+                <th>Department</th>
+                <th>Joined Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="x in namesemp |filter:searchemp">
+            	<td><button type="button" class="btn btn-secondary" ng-click="add(x.EmployeeID,x.name,x.address,x.Tel,x.designation,x.branch,x.department)" >ADD</button></td>
+            	
+                <td>{{x.name}}</td>
+                <td>{{x.address}}</td>
+                <td>{{x.Tel}}</td>
+                <td>{{x.nic}}</td>
+                <td>{{x.Gender}}</td>
+                <td>{{x.designation}}</td>
+                <td>{{x.branch}}</td>
+                <td>{{x.department}}</td>
+                
+                <td>{{x.joinedDate}}</td>
+            </tr>
+           
+        </tbody>
+        
+    </table>
+
+
+
+
+   </div><br><hr><br>
+
+
+<div class="row">
+	<div class="col-sm-12">
+		<h3>Create Account</h3><br>
+	<form name="account">
+  <div class="form-group">
+    <label for="exampleInputEmail1">Employee ID</label>
+    <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="Employee ID" ng-model="empid" disabled>
+    
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Employee Name</label>
+    <input type="text" class="form-control"  placeholder="Employee Name" ng-model="empName" required disabled>
+  </div>
+   <div class="form-group">
+    <label for="exampleInputPassword1">Address</label>
+    <input type="text" class="form-control"  placeholder="Address" ng-model="Address" required disabled>
+  </div>
+
+   <div class="form-group">
+    <label for="exampleInputPassword1">PhoneNumber</label>
+    <input type="text" class="form-control"  placeholder="PhoneNumber" ng-model="tel" required disabled>
+  </div>
+
+   <div class="form-group">
+    <label for="exampleInputPassword1">Designation</label>
+    <input type="text" class="form-control"  placeholder="Designation" ng-model="designationemp" required disabled>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Branch</label>
+    <input type="text" class="form-control"  placeholder="BranchName" ng-model="branchname" required disabled >
+    <input type="text" class="form-control"  placeholder="BranchID" ng-model="branchid" required disabled>
+  </div>
+
+<div class="form-group">
+    <label for="exampleInputPassword1">Department</label>
+    <input type="text" class="form-control"  placeholder="Department" ng-model="department" required disabled>
+   
+  </div>
+
+  <div class="form-group">
+    <label for="exampleInputPassword1">UserName</label>
+    <input type="text" class="form-control"  placeholder="Username" ng-model="User" required >
+   
+  </div>
+
+
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="Password" class="form-control"  placeholder="Password" ng-model="pass" required  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+      <small id="emailHelp" class="form-text text-muted">that must contain 8 or more characters that are of at least one number, and one uppercase and lowercase letter</small>
+  
+  </div>
+   
+  
+
+  <div class="form-group">
+    <label for="exampleInputPassword1">Re-Password</label>
+    <input type="Password" class="form-control"  placeholder="Re-Password" ng-model="passre" required  >
+   
+  </div>
+
+  <div class="alert alert-danger" role="alert" ng-hide="passwordmatch">
+ Passwords do not match.—check it out!
+</div>
+
+<div class="alert alert-danger" role="alert" ng-hide="passwordav">
+ existing UserName Password—check it out!
+</div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Permissions</label>
+    <select class="form-control " required ng-model="permission" >
+    <option selected></option>
+    <option >Low</option>
+    <option >Mid</option>
+    <option >High</option>
+  </select>
+   
+  </div>
+
+
+  <button type="submit" class="btn btn-primary" ng-disabled="account.$invalid" ng-click="Insertacc()">Submit</button>
+</form>
+</div>
+
+</div><br>
+
+<div class="row">
+	<input type="text" name="form-control form-group" ng-model="searchacc" placeholder="Search Account..">
+</div><br>
+
+
+ <div class="row justify-content-center" ng-init="showacc()">
+   	
+<table id="example22" class="display" style="width:100%">
+        <thead>
+            <tr>
+            	<th>Delete</th>
+            	<th>AccountID</th>
+
+                
+                <th>EmployeeID</th>
+                <th>EmployeeName</th>
+                <th>UserName</th>
+                <th>Password</th>
+                <th>Permissions</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="x in namesacc |filter:searchacc">
+            	<td><button type="button" class="btn btn-danger btn-sm" ng-click="accdel(x.AccountID)" >Delete</button></td>
+            	
+                <td>{{x.AccountID}}</td>
+                <td>{{x.EmployeeID}}</td>
+                <td>{{x.EmployeeName}}</td>
+                <td>{{x.UserName}}</td>
+                <td>{{x.Password}}</td>
+                <td>{{x.Permissions}}</td>
+                
+            </tr>
+           
+        </tbody>
+        
+    </table>
+
+
+
+
+   </div><br><hr><br>
+
+
+
+
+
+</div>
+
+<script >
+	$(document).ready(function() {
+    $('#example').DataTable({searching: false});
+} );
+
+
+	$(document).ready(function() {
+    $('#example22').DataTable({searching: false});
+} );
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+<script >
+	
+
+	var app = angular.module("systemacc", []);
+	app.controller("systemcon", function($scope,$http) {
+
+
+		$scope.passwordmatch=true;
+		$scope.passwordav=true;
+
+
+       $scope.showemp=function(){
+
+         $http.get("showemployee.php")
+   .then(function (response) {$scope.namesemp = response.data.records;});
+
+
+
+
+
+       }
+
+       $scope.add=function(EmployeeID,name,address,Tel,designation,branch,department){
+
+        $scope.empid=EmployeeID;
+        $scope.empName=name;
+        $scope.Address=address;
+        $scope.tel=Tel;
+        $scope.designationemp=designation;
+        $scope.branchname=branch;
+        $scope.department=department;
+         
+
+            
+             $http.post("showbranchID.php", {
+    'bn':branch,
+
+
+})        
+
+  .then(function (response) {
+
+
+   
+     $scope.branchid = response.data; 
+
+
+
+})
+
+
+             
+
+
+       }
+
+       $scope.Insertacc=function(){
+
+        
+           if($scope.pass==$scope.passre)
+           {
+           	$scope.passwordmatch=true;
+
+            
+             $scope.checkPass();
+
+
+
+           }
+           else
+           {
+           	$scope.passwordmatch=false;
+           }
+
+
+
+       }
+
+       $scope.checkPass=function(){
+
+
+               $http.post("chackPass.php", {
+    'User':$scope.User,
+    'pass':$scope.pass,
+
+
+})        
+
+  .then(function (response) {
+
+
+   
+     var status = response.data; 
+     
+
+     if(status=='true')
+     	{
+     		 $scope.passwordav=false;
+     	}
+     	if(status=='false')
+     	{
+     		$scope.passwordav=true;
+     		$scope.insertaccreg();
+     	}
+
+
+})
+
+
+
+       }
+
+
+       $scope.insertaccreg=function(){
+
+         	$http.post("insertaccount.php", {
+    'empid':$scope.empid,
+    'empName':$scope.empName,
+    'Address':$scope.Address,
+    'tel':$scope.tel,
+    'designationemp':$scope.designationemp,
+    'branchname':$scope.branchname,
+    'branchid':$scope.branchid,
+    'department':$scope.department,
+        'User':$scope.User,
+        'pass':$scope.pass,
+        'permission':$scope.permission,
+                                             
+        
+    
+    
+    
+
+
+
+
+
+
+})        
+
+  .then(function (response) {
+ 
+    
+
+$scope.empid="";
+$scope.empName="";
+$scope.Address="";
+$scope.tel="";
+$scope.designationemp="";
+$scope.branchname="";
+$scope.branchid="";
+$scope.department="";
+$scope.User="";
+$scope.pass="";
+$scope.passre="";
+$scope.permission="";
+ $scope.showacc();
+
+
+
+
+
+
+});
+
+
+
+
+       }
+
+
+
+
+       $scope.showacc=function(){
+
+
+         
+         $http.get("showacc.php")
+   .then(function (response) {$scope.namesacc = response.data.records;});
+
+
+
+
+
+       }
+
+
+
+
+       $scope.accdel=function(AccountID){
+
+               if(confirm("Are you sure?")){
+
+
+        
+          $http.post("deleteacc.php", {
+    'AccountID':AccountID,
+  
+    
+
+
+})        
+
+  .then(function (response) {
+   
+   
+    $scope.showacc();
+    
+
+    
+
+
+});
+
+
+   }
+   else{
+
+    return false;
+   }
+
+
+
+       }
+
+   
+
+
+	})
+
+
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html ng-app="MainSupplier">
+<head>
+	<title>Supplier Management</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+
+ <style>
+ #bb {
+        table-layout: fixed;
+        word-wrap: break-word;
+    }
+
+        bb th, table td {
+            overflow: hidden;
+        }
+ 
+</style>
+</head>
+<body>
+
+	<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Supplier Management</a>
+    </div>
+    
+  </div>
+</nav>
+
+
+<div class="container" ng-controller="supplier">
+  <h3>Supplier Management</h3>
+  <p>Add your supplier from here..</p><br><hr><br>
+
+
+
+
+  <div class="alert alert-success" role="alert" ng-hide="supdirtask">
+  Supplier directory has been updated..
+</div>
+
+
+
+
+
+
+  <div class="modal fade" role="dialog" id="addsupplier" ng-init="branchshow()">
+	 <div class="modal-dialog">
+	 	 
+      <div class="modal-content">
+      	<div class="modal-header">
+      		<h3 class="modal-title" ng-hide="head">Add Supplier</h3>
+      		<button type="button" class="close" data-dismiss="modal" ng-click="cancelcompany()">&times;</button>
+
+      	</div>
+      	<div class="modal-body">
+
+      		<form name=" branchAdd">
+      		<div class="form-group">
+      			<input type="text" class="form-control" placeholder="Supplier Name" ng-model="supliername" required >
+      		</div>
+            
+
+            <div class="form-group">
+      			<input type="text" class="form-control" placeholder="Distribute Address" ng-model="Daddress" required >
+      		</div>
+
+      		<div class="form-group">
+      			<input type="text" class="form-control" placeholder="Phone Number" ng-model="pnumber" required >
+      		</div>
+
+      		<select class="form-control" ng-model="Supplierb" >
+
+  <option disabled selected>Branch</option>
+  <option ng-repeat="x in names2" >{{x.branchName}}</option>
+  
+  
+</select><br>
+
+
+
+                  <div class="alert alert-danger" ng-hide="superr">
+  <strong>Insert fail!</strong> Please chack your form again.
+</div>
+
+
+      		<div class="form-group">
+      			<button type="button" class="btn btn-primary" ng-disabled="branchAdd.$invalid" ng-click="insertsupplier()">Add</button>
+      		</div>
+
+
+
+      		<div class="form-group">
+      			<input type="text" class="form-control" placeholder="Search Supplier Details" ng-model="searchsup" style="background: #34495E  ; color: white;" ><br>
+      		</div>
+
+
+
+      			<div class="modal-footer" ng-init="showsupliers()">
+
+      				<div class="form-group">
+      		
+      		<table class="table" id="bb">
+    <thead>
+      <tr>
+        
+        <th>ID</th>
+        <th>Name</th>
+        <th>Distribute Address</th>
+        <th>PhoneNumber</th>
+        
+        <th>Branch</th>
+        <th>Delete</th>
+
+        
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="x in namessupli | filter:searchsup" >
+        <td>{{x.supID}}</td>
+        <td>{{x.Name}}</td>
+        <td>{{x.DistributeAddress}}</td>
+        <td>{{x.phoneNumber}}</td>
+        <td>{{x.Branch}}</td>
+        
+        <td><button type="button" class="btn btn-danger" ng-click="deletesup(x.supID)">Delete</button></td>
+        
+      </tr>
+    </tbody>
+  </table>
+
+
+</div>
+
+
+      	</div>
+
+
+
+      		
+
+      		</form>
+
+
+      		<div class="alert alert-success" ng-hide="cinserttask">
+  <strong>Success!</strong> Department details has been inserted.
+</div>
+
+
+
+
+      	</div>
+
+      	
+
+      </div>
+
+
+	 </div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+  
+
+ <div class="row">
+  <div class="col-sm-3">
+  	<div class="col-sm-6" ng-init="showsupliers()">
+  	<select class="form-control" ng-model="Supplierselect">
+
+  <option disabled selected>Supplier</option>
+  <option ng-repeat="x in namessupli" >{{x.supID}}</option>
+  
+  
+</select>
+  	</div>
+
+    <div class="col-sm-6" >
+    	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#addsupplier">Add</button>
+  	
+  	</div>
+
+  </div>
+  <form name="addte">
+  <div class="col-sm-3"><input type="text" class="form-control" placeholder="Company ID" ng-model="comID" required disabled></div>
+  <div class="col-sm-3"><input type="text" class="form-control" placeholder="Product ID" ng-model="ProductID" required disabled></div>
+  <div class="col-sm-3"><button type="button" class="btn btn-info" ng-click="addtem()" ng-disabled="addte.$invalid">Add List</button></div>
+  </form>
+
+</div><br>
+
+<div class="row" ng-init="showtem()">
+
+
+	<table class="table table-bordered">
+    <thead>
+      <tr >
+      	<th>Delete</th>
+      	<th>Add</th>
+      	<th>#Id</th>
+      	<th>Supplier-ID</th>
+        <th>Sup Name</th>
+        <th> sup Distribute Address</th>
+        <th>Sup Phone</th>
+        <th>Branch</th>
+        <th>CompanyID</th>
+        <th>CompanyName</th>
+        <th>DistributeAddress</th>
+        <th>CompanyTel</th>
+        <th>Product-ID</th>
+        <th>ProName</th>
+        <th>ItemName</th>
+        <th>sizeAvailable</th>
+        <th>Small</th>
+        <th>Price</th>
+        <th>Medium</th>
+        <th>Price</th>
+        <th>Large</th>
+        <th>Price</th>
+        <th>unitAvailable</th>
+        <th>Small</th>
+        <th>Unit</th>
+        <th>Price</th>
+        <th>Medium</th>
+        <th>Unit</th>
+        <th>Price</th>
+        <th>Large</th>
+        <th>Unit</th>
+        <th>Price</th>
+
+        <th>Other-Price</th>
+
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr  ng-repeat="x in namestem" >
+      	<td><button type="button" class="btn btn-danger btn-xs" ng-click="temdel(x.id)">Delete</button></td>
+      	<td><button type="button" class="btn btn-success btn-xs" ng-click="addDir(x.id,x.supID,x.supname,x.supDA,x.supPnum,x.supBranch,x.comID,x.companyName,x.DistributeAddress,x.Tel,x.proAID,x.productName,x.itemName,x.sizeAvailable,x.smallav,x.priceavs,x.mediumav,x.priceavm,x.largeav,x.priceavl,x.unitAvailable,x.smallusa,x.smallus,x.smallup,x.mediumuma,x.medianus,x.medianup,x.largeusa,x.largeus,x.largeup,x.otherprice)">Add</button></td>
+
+      	<td>{{x.id}}</td>
+      	
+        <td>{{x.supID}}</td>
+
+        <td>{{x.supname}}</td>
+        <td>{{x.supDA}}</td>
+        <td>{{x.supPnum}}</td>
+        <td>{{x.supBranch}}</td>
+        <td>{{x.comID}}</td>
+        <td>{{x.companyName}}</td>
+        <td>{{x.DistributeAddress}}</td>
+        <td>{{x.Tel}}</td>
+        <td>{{x.proAID}}</td>
+        <td>{{x.productName}}</td>
+        <td>{{x.itemName}}</td>
+        <td>{{x.sizeAvailable}}</td>
+        <td>{{x.smallav}}</td>
+        <td>{{x.priceavs}}</td>
+        <td>{{x.mediumav}}</td>
+        <td>{{x.priceavm}}</td>
+        <td>{{x.largeav}}</td>
+        <td>{{x.priceavl}}</td>
+        <td>{{x.unitAvailable}}</td>
+        <td>{{x.smallusa}}</td>
+        <td>{{x.smallus}}</td>
+        <td>{{x.smallup}}</td>
+        <td>{{x.mediumuma}}</td>
+        <td>{{x.medianus}}</td>
+        <td>{{x.medianup}}</td>
+        <td>{{x.largeusa}}</td>
+        <td>{{x.largeus}}</td>
+        <td>{{x.largeup}}</td>
+        <td>{{x.otherprice}}</td>
+
+        
+      </tr>
+      
+    </tbody>
+  </table>
+  
+</div><br>
+
+
+<div class="row">
+  <div class="col-sm-4"><a href="list.php"><button type="button" class="btn btn-primary btn-lg " >Print</button></a></div>
+
+  
+</div><br>
+
+
+  
+  <div class="row">
+  <div class="col-sm-6" ng-init="showcompany()">
+    <h3>Company Details</h3><br>
+
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addcompany">Add</button><br><br>
+
+     <input type="text" class="form-control" placeholder="Search Company Details" ng-model="searchcom" style="background: #34495E  ; color: white;" ><br>
+
+
+  	<table class="table table-bordered">
+    <thead>
+      <tr >
+        <th>Company ID</th>
+        <th>Company Name</th>
+        <th>Distribute Address</th>
+        <th>Phone Number</th>
+        <th>Delete</th>
+        <th>Edit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="x in names | filter:searchcom">
+        <td >{{x.companyID}}</td>
+        <td >{{x.companyName}}</td>
+        <td >{{x.DistributeAddress}}</td>
+        <td >{{x.Tel}}</td>
+        <td ><button type="button" class="btn btn-danger btn-xs" ng-click="deletecompany(x.companyID)">Delete</button></td>
+        <td ><button type="button" class="btn btn-success btn-xs" ng-click="done(x.companyID)" >Done</button></td>
+      </tr>
+      
+      
+    </tbody>
+  </table>
+  	
+  </div>
+
+  <div class="col-sm-6">
+
+  	
+  </div>
+  
+</div>
+
+
+
+
+<div class="row" >
+  <div class="col-sm-12" ng-init="showproduct()">
+  	
+
+
+  	<h3>Product Details</h3><br>
+
+
+  	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#addproduct">Add</button><br><br>
+  	<input type="text" class="form-control" placeholder="Search Product Details" ng-model="searchpro" style="background: #34495E  ; color: white;" ><br>
+
+  	<table class="table table-bordered ">
+    <thead>
+      <tr>
+      	<th>Edit</th>
+      	<th>Delete</th>
+        <th>Id</th>
+        <th>Product Name</th>
+        <th>ItemName</th>
+        <th>SizeAvailable</th>
+        <th>Small</th>
+        <th>Price</th>
+         <th></th>
+        <th>Medium</th>
+        <th>Price</th>
+        <th></th>
+        <th>Large</th>
+        <th>Price</th>
+        <th></th>
+        <th  >UnitAvailable</th>
+        <th>Small</th>
+        <th>Unit</th>
+        <th>Price</th>
+        <th></th>
+        <th>Medium</th>
+        <th>unit</th>
+        <th>Price</th>
+        <th></th>
+        <th>Large</th>
+        <th>Unit</th>
+        <th>Price</th>
+        <th></th>
+        <th>OtheItemPrice</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="x in namespro |filter:searchpro">
+      	<td><button type="button" class="btn btn-success btn-xs" ng-click="select(x.proAID)" >Done</button></td>
+      	<td><button type="button" class="btn btn-danger btn-xs" ng-click="deleteproduct(x.proAID)">Delete</button></td>
+        <td >{{x.proAID}}</td>
+        <td>{{x.productName}}</td>
+        <td>{{x.itemName}}</td>
+        <td class="bg-primary" ><h4>{{x.sizeAvailable}}</h4></td>
+        <td class="bg-success"><h4>{{x.SAsmall}}</h4></td>
+        <td class="bg-success"><h4>{{x.SAsPrice}}</h4></td>
+          <td ></td>
+        <td class="bg-success"><h4>{{x.SAmedium}}</h4></td>h4
+        <td class="bg-success"><h4>{{x.SAmprice}}</h4></td>
+        <td ></td>
+        <td class="bg-success"><h4>{{x.SAlarge}}</h4></td>
+        <td class="bg-success"><h4>{{x.SAlprice}}</h4></td>
+        <td ></td>
+        <td class="bg-primary"><h4>{{x.unitAvailable}}</h3></td>
+        <td class="bg-success"><h4>{{x.UAsmall}}</h4></td>
+        <td class="bg-success"><h4>{{x.UAsunit}}</h4></td>
+        <td class="bg-success"><h4>{{x.UAsprice}}</h4></td>
+        <td ></td>
+        <td class="bg-success"><h4>{{x.UAmedium}}</h4></td>
+        <td class="bg-success"><h4>{{x.UAmunit}}</h4></td>
+        <td class="bg-success"><h4>{{x.UAmprice}}</h4></td>
+         <td ></td>
+        <td class="bg-success"><h4>{{x.UAlarge}}</h4></td>
+        <td class="bg-success"><h4>{{x.UAlunit}}</h4></td>
+        <td class="bg-success"><h4>{{x.UAlprice}}</h4></td>
+         <td ></td>
+        <td class="bg-success">{{x.price}}</td>
+
+      </tr>
+      
+    </tbody>
+  </table>
+
+  </div>
+  
+</div><br>
+
+
+
+<div class="modal fade" role="dialog" id="addcompany">
+	 <div class="modal-dialog">
+	 	 
+      <div class="modal-content">
+      	<div class="modal-header">
+      		<h3 class="modal-title" ng-hide="head">Add Company</h3>
+      		<button type="button" class="close" data-dismiss="modal" ng-click="cancelcompany()">&times;</button>
+
+      	</div>
+      	<div class="modal-body">
+
+      		<form name=" dAdd">
+      		<div class="form-group">
+      			<input type="text" class="form-control" placeholder="Company Name" ng-model="Companyname" required >
+      		</div>
+            
+
+            <div class="form-group">
+      			<input type="text" class="form-control" placeholder="Distribute Address" ng-model="Daddress" required >
+      		</div>
+
+      		<div class="form-group">
+      			<input type="text" class="form-control" placeholder="Phone Number" ng-model="pnumber" required >
+      		</div>
+
+
+      		<div class="form-group">
+      			<button type="button" class="btn btn-primary" ng-disabled="dAdd.$invalid" ng-click="insertcompany()">Add</button>
+      		</div>
+
+      		
+
+      		</form>
+
+
+      		<div class="alert alert-success" ng-hide="cinserttask">
+  <strong>Success!</strong> Department details has been inserted.
+</div>
+
+
+
+
+      	</div>
+
+      	
+
+      </div>
+
+
+	 </div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" role="dialog" id="addproduct">
+	 <div class="modal-dialog">
+	 	 
+      <div class="modal-content">
+      	<div class="modal-header">
+      		<h3 class="modal-title" ng-hide="bb" >Add Product</h3>
+      		<button type="button" class="close" data-dismiss="modal" >&times;</button>
+
+      	</div>
+      	<div class="modal-body">
+
+      		<form name=" dqAdd">
+      		<div class="form-group">
+      			<input type="text" class="form-control" placeholder="Product Name" ng-model="productname" required >
+      		</div>
+      		<div class="form-group">
+      			<input type="text" class="form-control" placeholder=" Item" ng-model="itemname" required >
+      		</div>
+            
+
+            <div class="form-group">
+      			<div class="custom-control custom-radio">
+  <input type="radio" class="custom-control-input" id="defaultUnchecked" name="defaultExampleRadios" ng-model="sa" ng-click="showtask()" value="SizeAvailable">
+  <label class="custom-control-label"  >Size Available</label>
+</div>
+
+<!-- Default checked -->
+<div class="custom-control custom-radio" ng-hide="dd">
+  <input type="radio" class="custom-control-input" id="defaultChecked" name="defaultExampleRadios" ng-model="sa" ng-click="showtasknot()" value="SizeNotAvailable" >
+  <label class="custom-control-label"  >Size Not Available</label>
+</div>
+      		</div>
+
+      		<div class="form-group" ng-hide="protask">
+      			<!-- Default unchecked -->
+       <h4 class="modal-title">Available Size:</h4><br>
+    small:<input type="checkbox" class="custom-control-input"  ng-model="small" value="smallsize" ng-checked="as"><br>
+      			 <input type="text" class="form-control" placeholder="Price" ng-model="smallsprice" ng-show="small" ng-change="changed"  ><br>
+
+
+      		
+                 
+      			 Medium:<input type="checkbox" class="custom-control-input" id="defaultUnchecked" ng-model="medium" value="mediumsize" ng-checked="am"><br>
+      			 <input type="text" class="form-control" placeholder="Price" ng-model="mediumsprice" ng-show="medium" ><br>
+                  
+
+      			 Large:<input type="checkbox" class="custom-control-input" id="defaultUnchecked" ng-model="large" value="LargeUnit" ng-checked="al"><br>
+      			<input type="text" class="form-control" placeholder="Price" ng-model="largesprice" ng-show="large"  ><br>
+                   
+      		</div>
+
+      		<br>
+
+
+
+      		 <div class="form-group" ng-hide="unitms" >
+      			<div class="custom-control custom-radio">
+  <input type="radio" class="custom-control-input" id="defaultUncheckedunit" name="defaultExampleRadiosunit" ng-model="ua" ng-click="unittask()" value="unitAvailable" >
+  <label class="custom-control-label" for="defaultUnchecked">Unit size Available</label>
+</div>
+
+<!-- Default checked -->
+<div class="custom-control custom-radio" >
+  <input type="radio" class="custom-control-input" id="defaultCheckedunit" name="defaultExampleRadiosunit"  ng-model="ua" ng-click="unittasknot()" value="unitNotAvailable"  >
+  <label class="custom-control-label" for="defaultChecked" ng-click="normalitem()">Unit size Not Available</label>
+</div>
+      		</div>
+
+         <div class="form-group" ng-hide="unittt">
+      			 <h4 class="modal-title">Unit setting:</h4><br>
+      			 small:<input type="checkbox" class="custom-control-input" id="defaultUnchecked" ng-model="unitsmall" ng-checked="us" ><input type="text" class="form-control" placeholder="unit" ng-model="unitsmall2" ng-show="unitsmall" ><br>
+      			 <input type="text" class="form-control" placeholder="Price" ng-model="smalluprice" ng-show="unitsmall" ><br>
+
+
+      			 Medium:<input type="checkbox" class="custom-control-input" id="defaultUnchecked" ng-model="unitmedium" ng-checked="us2"><input type="text" class="form-control" placeholder="unit" ng-model="unitmedium2" ng-show="unitmedium" ><br>
+      			 <input type="text" class="form-control" placeholder="Price" ng-model="mediumuprice" ng-show="unitmedium" ><br>
+
+
+      			 Large:<input type="checkbox" class="custom-control-input" id="defaultUnchecked" ng-model="unitlarge" ng-checked="us3"><input type="text" class="form-control" placeholder="unit" ng-model="unitlarge2" ng-show="unitlarge"><br>
+      			 <input type="text" class="form-control" placeholder="Price" ng-model="largeuprice" ng-show="unitlarge" >
+      		</div>
+
+
+            <div class="form-group" ng-hide="mg">
+      			<input type="text" class="form-control" placeholder="Price" ng-model="otherItemPrice"  >
+      		</div>
+
+
+                  <div class="alert alert-danger" ng-hide="bad">
+  <strong>Insert fail!</strong> Please chack your form again.
+</div>
+
+
+      		<div class="form-group">
+      			<button type="button" class="btn btn-primary" ng-disabled="dqAdd.$invalid" ng-click="addproduct()">Add Product</button>
+      		</div>
+
+
+
+      		
+
+      		</form>
+
+
+      		<div class="alert alert-success" ng-hide="cinserttask">
+  <strong>Success!</strong> product details has been inserted.
+</div>
+
+
+
+
+      	</div>
+
+      	
+
+      </div>
+
+
+	 </div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<script >
+	
+	var app = angular.module("MainSupplier", []);
+
+app.controller("supplier", function($scope,$http) {
+
+
+	$scope.cinserttask=true;
+	$scope.protask=true;
+	$scope.unittt=true;
+	$scope.ua="";
+	$scope.una="";
+	$scope.unitms=true;
+
+
+	$scope.sa="";
+	$scope.sna="";
+	$scope.mg=true;
+	$scope.bad=true;
+	
+
+
+
+ $scope.insertcompany=function(){
+
+     $http.post("insertcompany.php", {
+    'Companyname':$scope.Companyname,
+    'Daddress':$scope.Daddress,
+    'pnumber':$scope.pnumber,
+    
+    
+
+
+})        
+
+  .then(function (response) {
+   
+   
+    $scope.Companyname="";
+    $scope.Daddress="";
+    $scope.pnumber="";
+    $scope.cinserttask=false;
+    $scope.showcompany();
+
+
+
+});
+
+
+
+ }
+ $scope.cancelcompany=function(){
+
+ 	$scope.cinserttask=true;
+ }
+
+
+ $scope.showcompany=function(){
+
+    
+       $http.get("showcompany.php")
+   .then(function (response) {$scope.names = response.data.records;});
+
+
+ }
+
+
+
+ $scope.deletecompany=function(companyID){
+
+          if(confirm("Are you sure?")){
+
+
+        
+          $http.post("deletecompany.php", {
+    'companyID':companyID,
+  
+    
+
+
+})        
+
+  .then(function (response) {
+   
+   $scope.showcompany();
+    
+
+    
+
+
+});
+
+
+   }
+   else{
+
+    return false;
+   }
+
+ }
+ $scope.done=function(companyID){
+
+
+ 	$scope.comID=companyID;
+ }
+
+ $scope.protask=true;
+
+
+ $scope.showtask=function(){
+
+   $scope.protask=false;
+    $scope.unitms=true;
+    $scope.unittt=true;
+    $scope.mg=true;
+ 	
+ }
+  $scope.showtasknot=function(){
+
+   $scope.protask=true;
+   $scope.unitms=false;
+ 	
+ }
+
+
+ $scope.unittask=function(){
+
+ 	$scope.unittt=false;
+ 	$scope.mg=true;
+ }
+
+
+ $scope.unittasknot=function(){
+
+ 	$scope.unittt=true;
+ 	$scope.mg=false;
+ }
+
+
+
+ $scope.addproduct=function(){
+
+   var fr=$scope.sa;
+   var frr=$scope.ua;
+
+   
+
+   if(fr=="")
+   {
+     $scope.bad=false;
+   }
+   else{
+      
+      if(fr=='SizeAvailable')
+      {
+      	
+      	if($scope.small==true||$scope.medium==true||$scope.large==true)
+      	{
+      		$scope.bad=true;
+      		if($scope.small==true&& $scope.smallsprice==null||$scope.medium==true&& $scope.mediumsprice==null||$scope.large==true&&$scope.largesprice==null)
+      		{
+      			$scope.bad=false;
+      		}
+      		else
+      		{
+      			$scope.bad=true;
+
+      			if($scope.small==true)
+      			{
+      				var aas='Yes';
+      			}
+      			else{
+      				var aas='No';
+      			}
+
+      			if($scope.medium==true)
+      			{
+      				var aam='Yes';
+      			}
+      			else{
+      				var aam='No';
+      			}
+      			if($scope.large==true)
+      			{
+      				var aal='Yes';
+      			}
+      			else{
+      				var aal='No';
+      			}
+
+      			$scope.insertproduct(aas,aam,aal);
+      			
+      		}
+      	}
+      	else
+      	{
+      		$scope.bad=false;
+      	}
+
+      }
+      if(fr=='SizeNotAvailable')
+      {
+      	if(frr=="")
+      	{
+      		$scope.bad=false;
+      	}
+      	else
+      	{
+      		$scope.bad=true;
+
+           if(frr=="unitAvailable")
+           {
+
+               if($scope.unitsmall==true||$scope.unitmedium==true||$scope.unitlarge==true)
+               {
+
+               	$scope.bad=true;
+
+               	if($scope.unitsmall==true && $scope.unitsmall2==null && $scope.smalluprice==null||$scope.unitmedium==true && $scope.unitmedium2==null && $scope.mediumuprice==null||$scope.unitlarge==true && $scope.unitlarge2==null && $scope.largeuprice==null)
+               	{
+                          $scope.bad=false; 
+               	}
+               	else
+               	{
+                   $scope.bad=true;
+
+                   if($scope.unitsmall==true)
+                   {
+                   	var usa='YES';
+                   }
+                   else
+                   {
+                   	var usa='NO';
+                   }
+                   if($scope.unitmedium==true)
+                   {
+                   	var uma='YES';
+                   }
+                   else
+                   {
+                   	var uma='NO';
+                   }
+
+                   if($scope.unitlarge==true)
+                   {
+                   	var ula='YES';
+                   }
+                   else
+                   {
+                   	var ula='NO';
+                   }
+
+                   $scope.insertproductunit(usa,uma,ula);
+
+               	}
+
+
+               }
+
+               else
+               {
+               	$scope.bad=false;
+               }
+           	  
+           }
+           else
+           {
+           	if($scope.otherItemPrice==null){
+           		$scope.bad=false;
+           	}
+           	else
+           	{
+           		$scope.bad=true;
+           		$scope.insertproductother();
+
+           	}
+           }
+
+
+      	}
+      }
+    
+
+
+   }
+
+
+ }
+
+
+ $scope.insertproduct=function(aas,aam,aal){
+     
+    var No='NO';
+
+ 	$http.post("insertproduct.php", {
+    'productname':$scope.productname,
+    'itemname':$scope.itemname,
+    'sa':$scope.sa,
+    'aas':aas,
+    'smallsprice':$scope.smallsprice,
+    'aam':aam,
+    'mediumsprice':$scope.mediumsprice,
+    'aal':aal,
+    'largesprice':$scope.largesprice,
+    'No':No,
+    
+    
+
+
+})        
+
+  .then(function (response) {
+   
+    $scope.productname="";
+$scope.itemname="";
+$scope.sa="";
+aas="";
+$scope.smallsprice="";
+$scope.mediumsprice="";
+aal="";
+$scope.largesprice="";
+No="";
+    $scope.cinserttask=false;
+    $scope.showproduct();
+
+    
+
+
+});
+
+
+
+
+
+
+
+
+
+ }
+
+
+
+
+
+
+
+ $scope.insertproductunit=function(usa,uma,ula){
+
+var No='NO';
+ 	$http.post("insertproductunit.php", {
+    'productname':$scope.productname,
+    'itemname':$scope.itemname,
+    'ua':$scope.ua,
+    'sa':$scope.sa,
+    'No':No,
+    'usa':usa,
+    'uma':uma,
+    'ula':ula,
+        'unitsmall2':$scope.unitsmall2,
+        'smalluprice':$scope.smalluprice,
+        'unitmedium2':$scope.unitmedium2,
+        'mediumuprice':$scope.mediumuprice,
+        'unitlarge2':$scope.unitlarge2,
+        'largeuprice':$scope.largeuprice,                                       
+        
+    
+    
+    
+
+
+
+
+
+
+})        
+
+  .then(function (response) {
+   
+    $scope.productname="";
+$scope.itemname="";
+$scope.sa="";
+aas="";
+$scope.smallsprice="";
+$scope.mediumsprice="";
+aal="";
+$scope.largesprice="";
+No="";
+
+$scope.unitsmall2="";
+$scope.smalluprice="";
+$scope.unitmedium2="";
+$scope.mediumuprice="";
+$scope.unitlarge2="";
+$scope.largeuprice="";
+$scope.ua
+usa="";
+uma="";
+ula="";
+$scope.cinserttask=false;
+$scope.showproduct();
+
+    
+
+    
+
+
+});
+
+
+
+ }
+
+ $scope.insertproductother=function(){
+
+       var No='NO';
+
+
+       $http.post("insertproductother.php", {
+    'productname':$scope.productname,
+    'itemname':$scope.itemname,
+
+    
+    'No':No,
+    
+        
+        'otherItemPrice':$scope.otherItemPrice,                                       
+        
+    
+    
+    
+
+
+
+
+
+
+})        
+
+  .then(function (response) {
+   
+    $scope.productname="";
+$scope.itemname="";
+$scope.sa="";
+aas="";
+$scope.smallsprice="";
+$scope.mediumsprice="";
+aal="";
+$scope.largesprice="";
+No="";
+
+$scope.unitsmall2="";
+$scope.smalluprice="";
+$scope.unitmedium2="";
+$scope.mediumuprice="";
+$scope.unitlarge2="";
+$scope.largeuprice="";
+$scope.ua
+usa="";
+uma="";
+ula="";
+$scope.otherItemPrice="";
+$scope.cinserttask=false;
+
+$scope.showproduct();
+
+
+
+
+
+
+
+})
+   }
+
+
+
+
+
+$scope.showproduct=function(){
+
+
+   
+       $http.get("showproduct.php")
+   .then(function (response) {$scope.namespro = response.data.records;});
+
+
+
+}
+
+
+
+$scope.deleteproduct=function(proAID){
+
+     if(confirm("Are you sure?")){
+
+
+        
+          $http.post("deleteproduct.php", {
+    'proAID':proAID,
+  
+    
+
+
+})        
+
+  .then(function (response) {
+   
+   
+    $scope.showproduct();
+    
+
+    
+
+
+});
+
+
+   }
+   else{
+
+    return false;
+   }
+
+
+}
+
+$scope.select=function(proAID){
+
+$scope.ProductID=proAID;
+
+}
+
+
+
+
+
+$scope.branchshow=function(){
+
+
+    $http.get("showbranch.php")
+   .then(function (response) {$scope.names2 = response.data.records;});
+
+}
+
+
+$scope.superr=true;
+$scope.insertsupplier=function(){
+
+    if($scope.Supplierb==null)
+    {
+
+    	$scope.superr=false;
+
+    }
+    else
+    {
+
+    	$scope.superr=true;
+    	$scope.insup();
+
+    }
+    
+
+}
+
+$scope.insup=function()
+{
+
+   
+	 $http.post("insertsupplier.php", {
+    'supliername':$scope.supliername,
+    'Daddress':$scope.Daddress,
+    'pnumber':$scope.pnumber,
+    'Supplierb':$scope.Supplierb,
+    
+    
+
+
+})        
+
+  .then(function (response) {
+   
+    
+          $scope.supliername="";
+$scope.Daddress="";
+$scope.pnumber="";
+$scope.Supplierb="";
+
+$scope.showsupliers();
+    
+
+
+});
+
+
+
+
+
+}
+
+
+$scope.showsupliers=function(){
+
+
+    $http.get("showsupliers.php")
+   .then(function (response) {$scope.namessupli = response.data.records;});
+
+}
+
+
+
+$scope.deletesup=function(supID){
+
+
+
+
+      if(confirm("Are you sure?")){
+
+
+        
+          $http.post("deletesup.php", {
+    'supID':supID,
+  
+    
+
+
+})        
+
+  .then(function (response) {
+   
+   
+    $scope.showsupliers();
+    
+
+    
+
+
+});
+
+
+   }
+   else{
+
+    return false;
+   }
+
+
+}
+
+
+$scope.addtem=function(){
+
+
+	if($scope.Supplierselect==null)
+	{
+		alert("Please chack again..")
+	}
+	else
+	{
+
+		$scope.addtem2();
+
+	}
+}
+$scope.addtem2=function()
+{
+   
+
+
+    $http.post("inserttem.php", {
+    'Supplierselect':$scope.Supplierselect,
+    'comID':$scope.comID,
+    'ProductID':$scope.ProductID,
+    
+    
+    
+
+
+})        
+
+  .then(function (response) {
+   
+    
+$scope.comID='';
+$scope.ProductID='';
+$scope.showtem();
+
+
+
+});
+
+
+
+
+
+}
+
+$scope.showtem=function(){
+
+
+ $http.get("showtem.php")
+   .then(function (response) {$scope.namestem = response.data.records;});
+
+
+
+
+}
+
+$scope.temdel=function(id){
+
+
+if(confirm("Are you sure?")){
+
+
+        
+          $http.post("deletetem.php", {
+    'id':id,
+  
+    
+
+
+})        
+
+  .then(function (response) {
+   
+   
+    $scope.showtem();
+    alert('dffdsfdsfds');
+    
+
+    
+
+
+});
+
+
+   }
+   else{
+
+    return false;
+   }
+
+
+
+
+
+
+}
+
+
+
+
+$scope.supdirtask=true;
+
+
+$scope.addDir=function(id,supID,supname,supDA,supPnum,supBranch,comID,companyName,DistributeAddress,Tel,proAID,productName,itemName,sizeAvailable,smallav,priceavs,mediumav,priceavm,largeav,priceavl,unitAvailable,smallusa,smallus,smallup,mediumuma,medianus,medianup,largeusa,largeus,largeup,otherprice){
+
+
+
+        
+	 $http.post("insertsupdir.php", {
+    'id':id,
+    'supID':supID,
+    'supname':supname,
+    'supDA':supDA,
+    'supPnum':supPnum,
+    'supBranch':supBranch,
+    'comID':comID,
+    'companyName':companyName,
+    'DistributeAddress':DistributeAddress,
+    'Tel':Tel,
+    'proAID':proAID,
+    'productName':productName,
+    'itemName':itemName,
+    'sizeAvailable':sizeAvailable,
+    'smallav':smallav,
+    'priceavs':priceavs,
+    'mediumav':mediumav,
+    'priceavm':priceavm,
+    'largeav':largeav,
+    'priceavl':priceavl,
+    'unitAvailable':unitAvailable,
+    'smallusa':smallusa,
+    'smallus':smallus,
+    'smallup':smallup,
+    'mediumuma':mediumuma,
+    'medianus':medianus,
+    'medianup':medianup,
+    'largeusa':largeusa,
+    'largeus':largeus,
+    'largeup':largeup,
+    'otherprice':otherprice,
+   
+
+    
+    
+
+
+})        
+
+  .then(function (response) {
+   
+    
+
+  $scope.supdirtask=false;
+  $scope.showtem();
+    
+
+
+});
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+})
+
+
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

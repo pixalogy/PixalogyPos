@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html ng-app="MainDashEmployee">
+<head >
+	<title>Employee Management</title>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+  <style >
+    table {
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+  </style>
+
+
+
+
+
+
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+
+
+
+
+
+
+</head>
+<body>
+
+	<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">Employee Management </a>
+    </div>
+    
+  </div>
+</nav>
+  
+<div class="container"  ng-controller="Employee">
+  <h3>Employee Managemnt</h3>
+  <p>Add your Employee details here..</p><br><hr> <input type="text" class="form-control" placeholder="Employee ID" ng-model="empID"  disabled><br>
+<form name="employeeadd">
+<div class="row">
+  <div class="col-sm-4"><input type="text" class="form-control" placeholder="Employee Name" ng-model="empname" required ></div>
+  <div class="col-sm-4"><input type="text" class="form-control" placeholder="Address" ng-model="empaddress" required></div>
+  <div class="col-sm-4"><input type="text" class="form-control" placeholder="PhoneNo" ng-model="empphonenumber" required></div>
+</div><br>
+
+
+<div class="row">
+  <div class="col-sm-4"><input type="text" class="form-control" placeholder="NIC Number" ng-model="nic" required ></div>
+  <div class="col-sm-4"><input type="email" class="form-control" placeholder="Email" ng-model="Email" required></div>
+  <div class="col-sm-4">
+  	
+  <select class="form-control" ng-model="empgender">
+
+  <option disabled selected>Gender</option>
+  <option >Male</option>
+  <option >Female</option>
+  
+</select>
+
+  </div>
+</div><br>
+
+<div class="row">
+  <div class="col-sm-4" >
+
+  	<div class="col-sm-6" ng-init="showdesignation()">
+  	
+  	<select class="form-control" ng-model="desingnationget">
+
+  <option disabled selected>Designation</option>
+  <option ng-repeat="x in namesde" >{{x.Name}}</option>
+  
+  
+</select>
+
+
+</div>
+
+<div class="col-sm-6" ><button type="button" class="btn btn-success" data-toggle="modal" data-target="#designation">Edit</button></div>
+
+  </div>
+  <div class="col-sm-4">
+
+  	<div class="col-sm-6">
+
+  	<input type="text" class="form-control" placeholder="salary" ng-model="empsalary" required disabled>
+
+  	</div>
+
+  	<div class="col-sm-6">
+
+  		<button type="button" class="btn btn-success" ng-click="salaryfind()">Calculate</button>
+  		
+  	</div>
+
+
+  </div>
+  <div class="col-sm-4"><div class="form-group">
+                <div class='input-group date' id='datetimepicker2'>
+                    <input type='text' class="form-control"  placeholder="Birthday"  ng-model="birthday" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div></div>
+</div><br>
+
+
+
+
+<div class="row">
+  <div class="col-sm-4" ng-init="branchshow()">
+
+  	<select class="form-control" ng-model="empbranch" >
+
+  <option  disabled >Branch</option>
+  <option  ng-repeat="x in names2">{{x.branchName}}</option>
+  
+  
+</select>
+  	
+  </div>
+  <div class="col-sm-4" ng-init="showde()">
+  	<select class="form-control"  ng-model="empdepartment">
+
+  <option disabled selected>Department</option>
+  <option  ng-repeat="x in names">{{x.Name}}</option>
+  
+  
+</select>
+  </div>
+  <div class="col-sm-4"><div class="form-group">
+                <div class='input-group date' id='datetimepicker3'>
+                    <input type='text' class="form-control"  placeholder="Joined Date" ng-model="join" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div></div>
+</div><br>
+
+
+
+
+<div class="row">
+  <div class="col-sm-4">
+
+
+    <button type="button" class="btn btn-primary" ng-disabled="employeeadd.$invalid" ng-click="insertemployee()" ng-hide="btnemp">Add Employee</button>
+    <button type="button" class="btn btn-primary" ng-hide="btnempupdate" ng-click="empuptask()" ng-disabled="employeeadd.$invalid" >Update</button>
+    <button type="button" class="btn btn-primary" ng-hide="btnempcancel" ng-click="cancelup()" >Cancel</button><br><br>
+
+
+
+    <input type="text" class="form-control" placeholder="Search Employee.." ng-model="empsearch" style="background: #34495E; color: white;" >
+
+
+
+
+     
+
+
+
+  </div>
+
+  </form>
+
+
+
+  
+</div><br>
+
+<div class="row" ng-hide="designation">
+	<div class="col-sm-12">
+		<div class="alert alert-danger">
+  <strong>Danger!</strong> Please select Designation first.
+</div>
+	</div>
+</div>
+
+<div class="row" ng-hide="validate">
+	<div class="col-sm-12">
+		<div class="alert alert-danger">
+  <strong>Insert fail!</strong> Please chack your form again.
+</div>
+	</div>
+</div>
+
+<div class="row" ng-hide="inserttask">
+	<div class="col-sm-12">
+		<div class="alert alert-success">
+  <strong>Inserted:</strong> Employee  has been inserted.
+</div>
+	</div>
+</div>
+
+<div class="row" ng-hide="updatetask">
+	<div class="col-sm-12">
+		<div class="alert alert-success">
+  <strong>Updated:</strong> Employee  has been updated.
+</div>
+	</div>
+</div>
+
+
+
+
+
+
+<div ng-init="showemployee()">
+  
+    
+
+
+
+
+
+    <table class="table table-bordered table-hover ">
+    <thead >
+      <tr class="active">
+        <th>Employee ID</th>
+        <th> Name</th>
+        <th>Address</th>
+        <th>Phone number</th>
+        <th>NIC</th>
+        <th>Email</th>
+        <th>Gender</th>
+        <th>Designation</th>
+        <th>Salary</th>
+        <th>Birthday</th>
+        <th>Branch</th>
+        <th>Department</th>
+        <th>Joined Date</th>
+        <th>Delete</th>
+        <th>Update</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="x in namesemp| filter:empsearch">
+        <td><small>{{x.EmployeeID}}</small></td>
+        <td><small>{{x.name}}</small></td>
+        <td><small>{{x.address}}</small></td>
+        <td><small>{{x.Tel}}</small></td>
+        <td><small>{{x.nic}}</small></td>
+        <td><small>{{x.Email}}</small></td>
+        <td><small>{{x.Gender}}</small></td>
+        <td><small>{{x.designation}}</small></td>
+        <td><small>{{x.salary}}</small></td>
+        <td><small>{{x.birthday}}</small></td>
+        <td><small>{{x.branch}}</small></td>
+        <td><small>{{x.department}}</small></td>
+        <td><small>{{x.joinedDate}}</small></td>
+        <td><button type="button" class="btn btn-danger btn-xs" ng-click="empdelete(x.EmployeeID)">Delete</button></td>
+        <td><button type="button" class="btn btn-success btn-xs" ng-click="empupdate(x.EmployeeID,x.name,x.address,x.Tel,x.nic,x.Email,x.Gender,x.designation,x.salary,x.birthday,x.branch,x.department,x.joinedDate)" >Edit</button></td>
+        
+      </tr>
+    </tbody>
+  </table>
+  
+  
+</div>
+
+
+
+
+
+<div class="modal fade" role="dialog" id="designation">
+	 <div class="modal-dialog">
+	 	 
+      <div class="modal-content">
+      	<div class="modal-header">
+      		<h3 class="modal-title">Designation Edit</h3>
+      		<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+      	</div>
+      	<div class="modal-body">
+
+      		<form name=" deAdd">
+      		<div class="form-group">
+      			<input type="text" class="form-control" placeholder="Name" ng-model="Dname" required >
+      		</div>
+            
+
+            <div class="form-group">
+      			<input type="text" class="form-control" placeholder="Salary" ng-model="Dsalary" required >
+      		</div>
+
+
+      		<div class="form-group">
+      			<button type="button" class="btn btn-primary" ng-disabled="deAdd.$invalid" ng-click="addDesignation()">Add</button>
+      		</div>
+
+      		
+
+      		</form>
+
+
+
+
+      	</div>
+
+      	<div class="modal-footer" ng-init="showdesignation()">
+      		
+      		<table class="table">
+    <thead>
+      <tr>
+        
+        <th>ID</th>
+        <th>Name</th>
+        <th>Salary</th>
+        <th>Delete</th>
+
+        
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="x in namesde" >
+        <td>{{x.DesignationID}}</td>
+        <td>{{x.Name}}</td>
+        <td>{{x.Salary}}</td>
+        <td><button type="button" class="btn btn-danger" ng-click="designationdelete(x.DesignationID)" >Delete</button></td>
+        
+      </tr>
+    </tbody>
+  </table>
+
+
+
+      	</div>
+
+      </div>
+
+
+	 </div>
+
+
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+<script type="text/javascript" >
+	
+
+	$(function () {
+                $('#datetimepicker2').datetimepicker({
+                    format: 'DD/MM/YYYY'
+                });
+            });
+
+
+$(function () {
+                $('#datetimepicker3').datetimepicker({
+                    format: 'DD/MM/YYYY'
+                });
+            });
+
+
+
+
+</script>
+
+
+<script >
+	
+var app = angular.module("MainDashEmployee", []);
+
+app.controller("Employee", function($scope,$http) {
+
+	$scope.empgender="Gender";
+	$scope.desingnationget="Designation";
+	$scope.empdepartment="Department";
+	$scope.empbranch="Branch";
+	$scope.validate=true;
+	$scope.inserttask=true;
+
+	$scope.designation=true;
+
+	$scope.updatetask=true;
+
+
+   $scope.btnempupdate=true;
+   $scope.btnempcancel=true;
+
+
+$scope.showde=function(){
+
+
+    $http.get("showdepartment.php")
+   .then(function (response) {$scope.names = response.data.records;});
+
+
+
+
+}
+
+
+$scope.branchshow=function(){
+
+
+    $http.get("showbranch.php")
+   .then(function (response) {$scope.names2 = response.data.records;});
+
+}
+
+
+$scope.addDesignation=function(){
+
+
+	 $http.post("insertDesignation.php", {
+    'Dname':$scope.Dname,
+    'Dsalary':$scope.Dsalary,
+    
+    
+
+
+})        
+
+  .then(function (response) {
+   
+    
+           $scope.Dname="";
+           $scope.Dsalary="";
+           $scope.showdesignation();
+    
+
+    
+
+
+});
+
+
+}
+
+
+
+$scope.showdesignation=function(){
+
+    $http.get("showdesignation.php")
+   .then(function (response) {$scope.namesde = response.data.records;});
+
+
+}
+
+
+
+
+$scope.designationdelete=function(DesignationID){
+
+ if(confirm("Are you sure?")){
+
+	$http.post("deleteDesignation.php", {
+    'DesignationID':DesignationID,
+  
+    
+    
+
+
+})        
+
+  .then(function (response) {
+   
+    
+           
+           $scope.showdesignation();
+    
+
+    
+
+
+});
+
+}
+else{
+	return false;
+}
+
+
+}
+
+
+
+
+$scope.salaryfind=function(){
+
+    if($scope.desingnationget=='Designation'||$scope.desingnationget==null)
+    {
+
+    	$scope.designation=false;
+    }
+
+    else{
+
+    	$scope.designation=true;
+
+    	$http.post("salarycal.php", {
+    'desingnationget':$scope.desingnationget,
+  
+    
+    
+
+
+})        
+
+  .then(function (response) {
+   
+    
+          $scope.sal = response.data; 
+
+          $scope.empsalary=$scope.sal;
+           
+    
+  
+    
+
+
+});
+    }
+    
+   
+
+
+
+
+
+
+}
+
+
+
+$scope.insertemployee=function(){
+
+
+	$scope.updatetask=true;
+
+  if($scope.empgender==null||$scope.desingnationget==null||$scope.birthday==null||$scope.empbranch==null||$scope.empdepartment==null||$scope.join==null)
+  {
+
+  	$scope.validate=false;
+  }
+  else
+  {
+  	$scope.validate=true;
+  	$scope.insertemp();
+  }
+
+
+
+
+
+}
+
+$scope.insertemp=function(){
+
+    $http.post("insertemployee.php", {
+    'empname':$scope.empname,
+    'empaddress':$scope.empaddress,
+    'empphonenumber':$scope.empphonenumber,
+    'nic':$scope.nic,
+    'Email':$scope.Email,
+    'empgender':$scope.empgender,
+    'desingnationget':$scope.desingnationget,
+    'empsalary':$scope.empsalary,
+    'birthday':$scope.birthday,
+    'empbranch':$scope.empbranch,
+    'empdepartment':$scope.empdepartment,
+    'join':$scope.join,
+    
+
+
+})        
+
+  .then(function (response) {
+   
+    
+     $scope.empname="";
+    $scope.empaddress="";
+    $scope.empphonenumber="";
+    $scope.nic="";
+    $scope.Email="";
+    $scope.empgender="";
+    $scope.desingnationget="";
+    $scope.empsalary="";
+   $scope.birthday="";
+   $scope.empbranch="";
+   $scope.empdepartment="";
+   $scope.join="";
+
+   $scope.inserttask=false;
+   $scope.empgender="Gender";
+	$scope.desingnationget="Designation";
+	$scope.empdepartment="Department";
+	$scope.empbranch="Branch";
+
+   $scope.showemployee();
+
+
+    
+
+    
+
+
+});
+
+    
+
+}
+
+$scope.showemployee=function(){
+
+    
+   
+       $http.get("showemployee.php")
+   .then(function (response) {$scope.namesemp = response.data.records;});
+
+ 
+   
+
+
+
+}
+
+
+$scope.empdelete=function(EmployeeID){
+
+
+	if(confirm("Are you sure?")){
+
+
+        
+          $http.post("deleteemployee.php", {
+    'EmployeeID':EmployeeID,
+  
+    
+
+
+})        
+
+  .then(function (response) {
+   
+   
+    $scope.showemployee();
+    
+
+    
+
+
+});
+
+
+   }
+   else{
+
+    return false;
+   }
+
+
+
+
+
+}
+
+
+
+$scope.cancelup=function(){
+
+$scope.btnempupdate=true;
+$scope.updatetask=true;
+   $scope.btnempcancel=true;
+   $scope.btnemp=false;
+
+   $scope.empgender="Gender";
+	$scope.desingnationget="Designation";
+	$scope.empdepartment="Department";
+	$scope.empbranch="Branch";
+
+    $scope.empID="";
+    $scope.empname="";
+    $scope.empaddress="";
+    $scope.empphonenumber="";
+    $scope.nic="";
+    $scope.Email="";
+   
+    
+    $scope.empsalary="";
+   $scope.birthday="";
+
+   $scope.join="";
+
+
+}
+
+
+$scope.empupdate=function(EmployeeID,name,address,Tel,nic,Email,Gender,designation,salary,birthday,branch,department,joinedDate,){
+         
+
+         $scope.btnempupdate=false;
+   $scope.btnempcancel=false;
+   $scope.btnemp=true;
+
+      $scope.empID=EmployeeID;
+     $scope.empname=name;
+    $scope.empaddress=address;
+    $scope.empphonenumber=Tel;
+    $scope.nic=nic;
+    $scope.Email=Email;
+    $scope.empgender=Gender;
+    $scope.desingnationget=designation;
+    $scope.empsalary=salary;
+   $scope.birthday=birthday;
+   $scope.empbranch=branch;
+   $scope.empdepartment=department;
+   $scope.join=joinedDate;
+
+
+     
+
+
+
+
+}
+
+$scope.empuptask=function(){
+
+
+     if($scope.empgender==null||$scope.desingnationget==null||$scope.birthday==null||$scope.empbranch==null||$scope.empdepartment==null||$scope.join==null)
+  {
+
+  	$scope.validate=false;
+  }
+  else
+  {
+  	$scope.validate=true;
+  	$scope.upem();
+  	
+  }
+
+
+
+}
+
+$scope.upem=function(){
+
+
+    $http.post("updateemployee.php", {
+    	'empID':$scope.empID,
+    'empname':$scope.empname,
+    'empaddress':$scope.empaddress,
+    'empphonenumber':$scope.empphonenumber,
+    'nic':$scope.nic,
+    'Email':$scope.Email,
+    'empgender':$scope.empgender,
+    'desingnationget':$scope.desingnationget,
+    'empsalary':$scope.empsalary,
+    'birthday':$scope.birthday,
+    'empbranch':$scope.empbranch,
+    'empdepartment':$scope.empdepartment,
+    'join':$scope.join,
+    
+
+
+})        
+
+  .then(function (response) {
+   
+    
+     $scope.empname="";
+    $scope.empaddress="";
+    $scope.empphonenumber="";
+    $scope.nic="";
+    $scope.Email="";
+    $scope.empgender="";
+    $scope.desingnationget="";
+    $scope.empsalary="";
+   $scope.birthday="";
+   $scope.empbranch="";
+   $scope.empdepartment="";
+   $scope.join="";
+
+   $scope.updatetask=false;
+   $scope.empgender="Gender";
+	$scope.desingnationget="Designation";
+	$scope.empdepartment="Department";
+	$scope.empbranch="Branch";
+
+   $scope.showemployee();
+
+
+    
+
+    
+
+
+});
+
+
+
+}
+
+
+
+
+
+})
+
+
+
+
+
+
+</script>
+
+
+</body>
+</html>

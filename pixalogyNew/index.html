@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html ng-app="log">
+<head>
+	<title>Login </title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+
+	
+</head>
+<body>
+  
+  <div class="container" style="background-color: #F2F3F4; height: 600px;" ng-controller="log1" >
+    <div class="row">
+      <div class="col-md-12">
+                <div class="well"><h3>Welcome To Pixalogy Solutions</h3></div>
+      </div>
+    </div><br><br><br>
+
+    <div class="row">
+    	<div class="col-md-4">
+    		
+    	</div>
+    	<div class="col-md-4">
+    		<form action="proccess.php" method="post" name="login">
+  <div class="form-group">
+    <label for="exampleInputEmail1">User Name</label>
+    <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="User Name.." name=uname ng-model="usName" required>
+    
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password" ng-model="Pass" required>
+  </div>
+
+
+  <div class="form-group">
+  	 <button type="submit" class="btn btn-primary" name="btnlog" ng-disabled="login.$invalid">Submit</button>
+  </div>
+</form>
+    	</div>
+    	<div class="col-md-4">
+    		
+    	</div>
+
+    </div><br><br>
+
+      
+    </div>
+
+
+    <script >
+    	var app = angular.module("log", []);
+
+app.controller("log1", function($scope,$http) {
+
+
+
+
+
+
+})
+
+
+
+    </script>
+
+
+</body>
+</html>
