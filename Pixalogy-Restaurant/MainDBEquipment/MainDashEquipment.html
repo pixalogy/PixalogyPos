@@ -1,0 +1,402 @@
+<html lang="en">
+<head>
+  <title>Equipment Management</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+</head>
+<style>
+  input.ng-invalid.ng-dirty
+  {
+
+    border: 1px solid red;
+  }
+
+
+  
+
+
+
+
+</style>
+<body  ng-app="MainDashBranch">
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="../MainDashboard.html"><font size="5">PIXALOGY Solutions</font></a>
+    </div>
+    <ul class="nav navbar-nav">
+      
+    </ul>
+  </div>
+</nav>
+  
+<div class="container" ng-controller="branchadd" ng-init="showbranch()">
+
+
+
+
+
+  <h3><b>Equipment Management</b></h3><br>
+  <div>
+
+    <div class="row">
+      
+      <div class="col-sm-12" ng-hide="inserttask">
+         
+      <div class="alert alert-success">
+  <strong>Success!</strong> Equipment details has been inserted.
+</div>
+
+   
+
+
+      </div>
+    </div>
+
+    <div class="row">
+      
+      <div class="col-sm-12" ng-hide="deletetask">
+         
+      <div class="alert alert-success">
+  <strong>Success!</strong> Equipment details has been deleted.
+</div>
+
+   
+
+
+      </div>
+    </div>
+
+
+
+    <div class="row">
+      
+      <div class="col-sm-12" ng-hide="updatetask">
+         
+      <div class="alert alert-success">
+  <strong>Success!</strong> Equipment details has been Updated.
+</div>
+
+   
+
+
+      </div>
+    </div>
+
+
+
+    <form name="branchform">
+    <div class="row">
+  <div class="col-sm-4"><input type="text" class="form-control" placeholder="Equipment ID" ng-model="eqID" disabled ></div>
+  
+</div><br>
+
+  <div class="row">
+  <div class="col-sm-5"><input type="text" class="form-control" placeholder="Equipment Name" ng-model="eqName" required ></div>
+  <div class="col-sm-5"><input type="text" class="form-control" placeholder="Employee ID" ng-model="empID" required></div>
+  
+  
+</div><br>
+
+<div class="row">
+  <div class="col-sm-5"><input type="text" class="form-control" placeholder="Vendor Registered ID" ng-model="vendorID" required></div>
+  <div class="col-sm-5"><input type="text" class="form-control" placeholder="qty" ng-model="qty" required></div>
+</div><br>
+
+<div class="row">
+  <div class="col-sm-4">
+
+
+    <button type="button" class="btn btn-primary" ng-disabled="branchform.$invalid" ng-click="insertBranch()" ng-hide="addbtn">Add</button>
+    <button type="button" class="btn btn-primary"  ng-click="branchup2()" ng-hide="updatebtn">Update</button>
+    <button type="button" class="btn btn-primary"  ng-click="clear()" ng-hide="updatebtn" >Cancel</button>
+
+
+
+  </div>
+
+
+
+  
+</div><br>
+
+
+
+</form>
+
+
+
+<div class="row">
+  
+  <div class="col-sm-6"><input type="text" class="form-control" placeholder="Search Equipment Details" ng-model="search" style="background: #b2beb5  ; color: #696969; font-size:<b>18px"></div>
+
+</div><br>
+
+
+
+
+
+<div class="row">
+  <div class="col-sm-12">
+    
+
+
+
+
+
+    <table class="table table-bordered table-hover">
+    <thead >
+      <tr class="active">
+        <th>Equipment ID</th>
+        <th>Equipment Name</th>
+        <th>Employee ID</th>
+        <th>Vendor ID</th>
+        <th>Qty</th>
+        <th>Delete</th>
+        <th>Update</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="x in names | filter:search">
+        <td>{{ x.eqID }}</td>
+        <td>{{ x.eqName }}</td>
+        <td>{{ x.empID }}</td>
+        <td>{{ x.vendorID }}</td>
+        <td>{{ x.qty }}</td>
+        <td><button type="button" class="btn btn-danger" ng-click="deletebranch(x.eqID)">Delete</button></td>
+        <td><button type="button" class="btn btn-success" ng-click="updatebranch(x.eqID,x.eqName,x.empID,x.vendorID,x.qty )">Edit</button></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+<script>
+ var app = angular.module("MainDashBranch", []);
+
+app.controller("branchadd", function($scope,$http) {
+
+
+  $scope.inserttask=true;
+  $scope.deletetask=true;
+  $scope.updatebtn=true;
+  $scope.updatetask=true;
+
+  $scope.insertBranch=function(){
+
+
+    $scope.deletetask=true;
+    $scope.updatetask=true;
+
+
+
+                  $http.post("insertbranch.php", {
+    'eqName':$scope.eqName,
+    'empID':$scope.empID,
+    'vendorID':$scope.vendorID,
+    'qty':$scope.qty,
+    
+
+
+})        
+
+  .then(function (response) {
+   
+    $scope.inserttask=false;
+
+
+    $scope.showbranch();
+
+    $scope.eqName="";
+    $scope.empID="";
+    $scope.vendorID="";
+    $scope.qty="";
+
+
+});
+
+
+
+  }
+
+  $scope.showbranch=function(){
+
+       $http.get("showbranch.php")
+   .then(function (response) {$scope.names = response.data.records;});
+
+
+
+
+  }
+
+
+
+  $scope.deletebranch=function(eqID){
+
+    $scope.inserttask=true;
+    $scope.updatetask=true;
+
+   if(confirm("Are you sure?")){
+
+
+        
+          $http.post("deletebranch.php", {
+    'eqID':eqID,
+  
+    
+
+
+})        
+
+  .then(function (response) {
+   
+   
+    $scope.showbranch();
+    $scope.deletetask=false;
+
+    
+
+
+});
+
+
+   }
+   else{
+
+    return false;
+   }
+
+
+
+  }
+
+
+
+
+ $scope.updatebranch=function(eqID,eqName,empID,vendorID,qty){
+  
+            $scope.eqID=eqID;
+            $scope.eqName=eqName;
+    $scope.empID=empID;
+    $scope.vendorID=vendorID;
+    $scope.qty=qty;
+    $scope.updatebtn=false;
+    $scope.addbtn=true;
+    
+
+
+
+
+
+
+
+ }
+
+
+ $scope.clear=function(){
+
+
+$scope.updatebtn=true;
+
+$scope.addbtn=false;
+
+$scope.eqID="";
+$scope.eqName="";
+    $scope.empID="";
+
+    $scope.vendorID="";
+    $scope.qty="";
+
+
+
+
+
+ }
+
+
+
+
+
+ $scope.branchup2=function(){
+
+   
+     $http.post("updatebranch.php", {
+      'eqID':$scope.eqID,
+    'eqName':$scope.eqName,
+    'empID':$scope.empID,
+    'vendorID':$scope.vendorID,
+    'qty':$scope.qty,
+
+    
+
+
+})        
+
+  .then(function (response) {
+   
+    
+
+
+    $scope.showbranch();
+
+    $scope.updatebtn=true;
+    $scope.addbtn=false;
+
+
+    $scope.eqID="";
+$scope.eqName="";
+    $scope.empID="";
+    $scope.vendorID="";
+    $scope.qty="";
+
+    $scope.updatetask=false;
+
+
+
+
+   
+
+
+});
+
+
+
+
+
+
+ }
+
+
+
+})
+
+
+
+
+
+</script>
+
+</body>
+</html>

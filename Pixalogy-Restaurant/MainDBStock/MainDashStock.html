@@ -1,0 +1,459 @@
+<html lang="en">
+<head>
+  <title>Stock Management</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+</head>
+<style>
+  input.ng-invalid.ng-dirty
+  {
+
+    border: 1px solid red;
+  }
+
+
+  
+
+
+
+
+</style>
+<body  ng-app="MainDashBranch">
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="../MainDashboard.html"><font size="5">PIXALOGY Solutions</font></a>
+    </div>
+    <ul class="nav navbar-nav">
+      
+    </ul>
+  </div>
+</nav>
+  
+<div class="container" ng-controller="branchadd" ng-init="showbranch()">
+
+
+
+
+
+  <h3><b>Stock Management</b></h3><br>
+  <div>
+
+    <div class="row">
+      
+      <div class="col-sm-12" ng-hide="inserttask">
+         
+      <div class="alert alert-success">
+  <strong>Success!</strong> Details has been inserted.
+</div>
+
+   
+
+
+      </div>
+    </div>
+
+    <div class="row">
+      
+      <div class="col-sm-12" ng-hide="deletetask">
+         
+      <div class="alert alert-success">
+  <strong>Success!</strong> Details has been deleted.
+</div>
+
+   
+
+
+      </div>
+    </div>
+
+
+
+    <div class="row">
+      
+      <div class="col-sm-12" ng-hide="updatetask">
+         
+      <div class="alert alert-success">
+  <strong>Success!</strong> Details has been Updated.
+</div>
+
+   
+
+
+      </div>
+    </div>
+
+
+
+    <form name="branchform">
+    <div class="row">
+  <div class="col-sm-6"><input type="text" class="form-control" placeholder="Stock ID" ng-model="stockID" disabled=""></div>
+  
+</div><br>
+
+  <div class="row">
+  <div class="col-sm-4"><input type="text" class="form-control" placeholder="Item Name" ng-model="stockname" required="" ></div>
+  <div class="col-sm-4"><select type="text" class="form-control"  ng-model="type"   hidden="true">
+    <option value="" disabled selected>Select the Type</option>
+    <option value="kg">KG</option>
+    <option value="pcs">pcs</option>
+  </select></div>
+  <div class="col-sm-4"><input type="text" class="form-control" placeholder="Qty" ng-model="qty" required=""></div>
+</div><br>
+<div class="row">
+  <div class="col-sm-4"><input type="text" class="form-control" placeholder="Vendor RegNo" ng-model="vendorReg" required="" ></div>
+  <div class="col-sm-4"><input type="text" class="form-control" placeholder="Employee InCharge" ng-model="employeeID" required=""></div>
+  <div class="col-sm-4"><input type="text" class="form-control" placeholder="Branch ID" ng-model="branchID" required=""></div>
+</div><br>
+<div class="row">
+  <div class="col-sm-4"><input type="date" class="form-control" name="mDate" id="mDate" placeholder="Manufacture Date" ng-model="mDate" required="" ></div>
+  <div class="col-sm-4"><input type="date" class="form-control" name="eDate" id="eDate"placeholder="Expire Date" ng-model="eDate" required=""></div>
+  <div class="col-sm-4"><input type="text" class="form-control" placeholder="Unit Price" ng-model="uprice" required=""></div>
+</div><br>
+<br>
+
+<div class="row">
+  <div class="col-sm-4">
+
+
+    <button type="button" class="btn btn-primary" ng-disabled="branchform.$invalid" ng-click="insertBranch()" ng-hide="addbtn">Add</button>
+    <button type="button" class="btn btn-primary"  ng-click="branchup2()" ng-hide="updatebtn">Update</button>
+    <button type="button" class="btn btn-primary"  ng-click="clear()" ng-hide="updatebtn" >Cancel</button>
+
+
+
+  </div>
+
+
+
+  
+</div><br>
+
+
+
+</form>
+
+
+
+<div class="row">
+  
+  <div class="col-sm-6"><input type="text" class="form-control" placeholder="Search Meal Details" ng-model="search" style="background: #b2beb5  ; color: #696969; font-size:<b>18px"></div>
+
+</div><br>
+
+
+
+
+
+<div class="row">
+  <div class="col-sm-12">
+    
+
+
+
+
+
+    <table class="table table-bordered table-hover">
+    <thead >
+      <tr class="active">
+        <th>Stock ID</th>
+        <th>Item Name</th>
+        <th>Type</th>
+        <th>Qty</th>
+        <th>Vendor RegNo</th>
+        <th>Employee InCharge</th>
+        <th>Branch ID</th>
+        <th>Manufacture Date</th>
+        <th>Expire Date</th>
+        <th>Unit Price</th>
+        <th>Delete</th>
+        <th>Update</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="x in names | filter:search">
+        
+        <td>{{ x.stockID }}</td>
+        <td>{{ x.stockname }}</td>
+        <td>{{ x.type }}</td>
+        <td>{{ x.qty }}</td>
+        <td>{{ x.vendorReg }}</td>
+        <td>{{ x.employeeID }}</td>
+        <td>{{ x.branchID }}</td>
+        <td>{{ x.mDate }}</td>
+        <td>{{ x.eDate }}</td>
+        <td>{{ x.uprice }}</td>
+        <td><button type="button" class="btn btn-danger" ng-click="deletebranch(x.stockID)">Delete</button></td>
+        <td><button type="button" class="btn btn-success" ng-click="updatebranch(x.stockID,x.stockname,x.type,x.qty,x.vendorReg,x.employeeID,x.branchID,x.mDate,x.eDate,x.uprice)">Edit</button></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+<script>
+
+var d = new Date('mDate');
+d.setMinutes( d.getMinutes() + d.getTimezoneOffset() );
+
+ var app = angular.module("MainDashBranch", []);
+
+app.controller("branchadd", function($scope,$http) {
+
+
+  $scope.inserttask=true;
+  $scope.deletetask=true;
+  $scope.updatebtn=true;
+  $scope.updatetask=true;
+
+  $scope.insertBranch=function(){
+
+
+    $scope.deletetask=true;
+    $scope.updatetask=true;
+
+
+
+                  $http.post("insertbranch.php", {
+                    'stockID':$scope.stockID,
+    'stockname':$scope.stockname,
+    'type':$scope.type,
+    'qty':$scope.qty,
+    'vendorReg':$scope.vendorReg,
+    'employeeID':$scope.employeeID,
+    'branchID':$scope.branchID,
+    'mDate':$scope.mDate,
+    'eDate':$scope.eDate,
+    'uprice':$scope.uprice,
+    
+    
+
+
+})        
+
+  .then(function (response) {
+   
+    $scope.inserttask=false;
+
+
+    $scope.showbranch();
+
+    $scope.stockID="";
+    $scope.stockname="";
+    $scope.type="";
+    $scope.qty="";
+    $scope.vendorReg="";
+    $scope.employeeID="";
+    $scope.branchID="";
+    $scope.mDate="";
+    $scope.eDate="";
+    $scope.uprice="";
+
+
+});
+
+
+
+  }
+
+  $scope.showbranch=function(){
+
+       $http.get("showbranch.php")
+   .then(function (response) {$scope.names = response.data.records;});
+
+
+
+
+  }
+
+
+
+  $scope.deletebranch=function(stockID){
+
+    $scope.inserttask=true;
+    $scope.updatetask=true;
+
+   if(confirm("Are you sure?")){
+
+
+        
+          $http.post("deletebranch.php", {
+    'stockID':stockID,
+  
+    
+
+
+})        
+
+  .then(function (response) {
+   
+   
+    $scope.showbranch();
+    $scope.deletetask=false;
+
+    
+
+
+});
+
+
+   }
+   else{
+
+    return false;
+   }
+
+
+
+  }
+
+
+
+
+ $scope.updatebranch=function(stockID,stockname,type,qty,vendorReg,employeeID,branchID,mDate,eDate,uprice){
+  
+            $scope.stockID=stockID;
+            $scope.stockname=stockname;
+    $scope.type=type;
+    $scope.qty=qty;
+    $scope.vendorReg=vendorReg;
+    $scope.employeeID=employeeID
+    $scope.branchID=branchID;
+    $scope.mDate=mDate;
+    $scope.eDate=eDate;
+    $scope.uprice=uprice;
+        $scope.updatebtn=false;
+    $scope.addbtn=true;
+    
+
+
+
+
+
+
+
+ }
+
+
+ $scope.clear=function(){
+
+
+$scope.updatebtn=true;
+
+$scope.addbtn=false;
+
+$scope.stockID="";
+$scope.stockname="";
+    $scope.type="";
+    $scope.qty="";
+    $scope.vendorReg="";
+    $scope.employeeID="";
+    $scope.branchID="";
+    $scope.mDate="";
+    $scope.eDate="";
+    $scope.uprice="";
+
+
+
+
+
+ }
+
+
+
+
+
+ $scope.branchup2=function(){
+
+   
+     $http.post("updatebranch.php", {
+      'stockID':$scope.stockID,
+    'stockname':$scope.stockname,
+    'type':$scope.type,
+    'qty':$scope.qty,
+    'vendorReg':$scope.vendorReg,
+    'employeeID':$scope.employeeID,
+    'branchID':$scope.branchID,
+    'mDate':$scope.mDate,
+    'eDate':$scope.eDate,
+    'uprice':$scope.uprice,
+
+    
+
+
+})        
+
+  .then(function (response) {
+   
+    
+
+
+    $scope.showbranch();
+
+    $scope.updatebtn=true;
+    $scope.addbtn=false;
+
+
+    $scope.stockID="";
+$scope.stockname="";
+    $scope.type="";
+    $scope.qty="";
+    $scope.vendorReg="";
+    $scope.employeeID="";
+    $scope.branchID="";
+    $scope.mDate="";
+    $scope.eDate="";
+    $scope.uprice="";
+
+
+    $scope.updatetask=false;
+
+
+
+
+   
+
+
+});
+
+
+
+
+
+
+ }
+
+
+
+})
+
+
+
+
+
+</script>
+
+</body>
+</html>

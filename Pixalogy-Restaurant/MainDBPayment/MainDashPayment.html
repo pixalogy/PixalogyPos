@@ -1,0 +1,428 @@
+<html lang="en">
+<head>
+  <title>Payment Management</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+</head>
+<style>
+  input.ng-invalid.ng-dirty
+  {
+
+    border: 1px solid red;
+  }
+
+
+  
+
+
+
+
+</style>
+<body  ng-app="MainDashBranch">
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Payment Management&nbsp&nbsp&nbsp&nbsp </a>
+      <a class="navbar-brand" href="../MainDashboard.html">Main Dashboard </a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a></a></li>
+      <li><a></a></li>
+      <li><a></a></li>
+      <li><a></a></li>
+      <li><a></a></li>
+      <li><a href="../MainDBEmployee/MainDashEmployee.html">Employee </a></li>
+      <li><a href="../MainDBVendor/MainDashVendor.html">Vendor </a></li>
+      <li><a href="../MainDBBranch/MainDashBranch.html">Branch </a></li>
+      <li><a href="../MainDBOrder/MainDashOrder.html">Order </a></li>
+      <li><a href="../MainDBCustomer/MainDashCustomer.html">Customer </a></li>
+      <li><a href="../MainDBStock/MainDashStock.html">Stock </a></li>
+      <li><a href="../MainDBEquipment/MainDashEquipment.html">Equipment </a></li>
+      <li><a href="#">Payment </a></li>
+      <li><a href="../MainDBMeals/MainDashMeals.html">Meals </a></li>
+      <li><a></a></li>
+      <li><a></a></li>
+      <li><a></a></li>
+      <li><a></a></li>
+      <li><a></a></li>
+      <li ><a href="#">Settings</a></li>
+    </ul>
+  </div>
+</nav>
+  
+<div class="container" ng-controller="branchadd" ng-init="showbranch()">
+
+<img src="../images/e.png" class="img-circle" alt="Cinque Terre"><br><br>
+
+
+
+  <h3>Payment Management</h3><br>
+  <div>
+
+    
+
+    <div class="row">
+      
+      <div class="col-sm-12" ng-hide="deletetask">
+         
+      <div class="alert alert-success">
+  <strong>Success!</strong> Employee details has been deleted.
+</div>
+
+   
+
+
+      </div>
+    </div>
+
+
+
+    <div class="row">
+      
+      <div class="col-sm-12" ng-hide="updatetask">
+         
+      <div class="alert alert-success">
+  <strong>Success!</strong> Employee details has been Updated.
+</div>
+
+   
+
+
+      </div>
+    </div>
+
+
+
+    <form name="branchform">
+    
+<div class="row">
+  <div class="col-sm-4">
+
+
+    <div class="col-sm-6">
+      <button type="button" class="btn btn-primary"  ng-click="branchup2()" ng-hide="updatebtn">Update</button>
+
+    </div>
+
+    <div class="col-sm-6">
+      <button type="button" class="btn btn-primary"  ng-click="clear()" ng-hide="updatebtn" >Cancel</button>
+      
+    </div>
+
+
+    
+
+
+  </div>
+
+
+  
+  
+</div><br>
+
+
+</form>
+
+
+
+<div class="row">
+  
+  <div class="col-sm-6"><input type="text" class="form-control" placeholder="Search Payment Details" ng-model="search" style="background: #D7DBDD  ; color: black;" ></div>
+
+</div><br>
+
+
+
+
+
+<div class="row">
+  <div class="col-sm-12">
+    
+
+
+
+
+
+    <table class="table table-bordered table-hover">
+    <thead >
+      <tr class="active">
+        <th>Payment No</th>
+        <th>Order No</th>
+        <th>Employee ID</th>
+        <th>Customer ID</th>
+        <th>Invoice No</th>
+        <th>Sub Total</th>
+        <th>Tax</th>
+        <th>Discount</th>
+        <th>Net Value</th>
+        <th>Delete</th>
+        <th>Update</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="x in names | filter:search">
+        <td>{{ x.branchID }}</td>
+        <td>{{ x.branchName }}</td>
+        <td>{{ x.locations }}</td>
+        <td>{{ x.phone }}</td>
+        <td>{{ x.address }}</td>
+        <td>{{ x.email }}</td>
+        <td>{{ x.manager }}</td>
+        <td>{{ x.noemployee }}</td>
+        <td>{{ x.netvalue }}</td>
+        <td><button type="button" class="btn btn-warning" ng-click="deletebranch(x.branchID)">Delete</button></td>
+        <td><button type="button" class="btn btn-success" ng-click="updatebranch(x.branchID,x.branchName,x.locations,x.phone,x.address,x.email,x.manager,x.noemployee,x.netvalue )">Edit</button></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+<script>
+ var app = angular.module("MainDashBranch", []);
+
+app.controller("branchadd", function($scope,$http) {
+
+
+  $scope.inserttask=true;
+  $scope.deletetask=true;
+  $scope.updatebtn=true;
+  $scope.updatetask=true;
+
+  $scope.insertBranch=function(){
+
+
+    $scope.deletetask=true;
+    $scope.updatetask=true;
+
+
+                  $http.post("insertbranch.php", {
+    'branchname':$scope.branchname,
+    'location':$scope.location,
+    'phonenumber':$scope.phonenumber,
+    'address':$scope.address,
+    'Email':$scope.Email,
+    'manager':$scope.manager,
+    'noemployee':$scope.noemployee,
+    'netvalue':$scope.netvalue,
+    
+
+
+})        
+
+  .then(function (response) {
+   
+    $scope.inserttask=false;
+
+
+    $scope.showbranch();
+
+    $scope.branchname="";
+    $scope.location="";
+    $scope.phonenumber="";
+    $scope.address="";
+    $scope.Email="";
+    $scope.manager="";
+    $scope.noemployee="";
+    $scope.netvalue="";
+
+
+});
+
+
+
+  }
+
+  $scope.showbranch=function(){
+
+       $http.get("showbranch.php")
+   .then(function (response) {$scope.names = response.data.records;});
+
+
+
+
+  }
+
+
+
+  $scope.deletebranch=function(branchID){
+
+    $scope.inserttask=true;
+    $scope.updatetask=true;
+
+   if(confirm("Are you sure?")){
+
+
+        
+          $http.post("deletebranch.php", {
+    'branchID':branchID,
+  
+    
+
+
+})        
+
+  .then(function (response) {
+   
+   
+    $scope.showbranch();
+    $scope.deletetask=false;
+
+    
+
+
+});
+
+
+   }
+   else{
+
+    return false;
+   }
+
+
+
+  }
+
+
+
+
+ $scope.updatebranch=function(branchID,branchName,locations,phone,address,email,manager,noemployee,netvalue){
+
+            $scope.branchID=branchID;
+            $scope.branchname=branchName;
+    $scope.location=locations;
+    $scope.phonenumber=phone;
+    $scope.address=address;
+    $scope.Email=email;
+    $scope.manager=manager;
+    $scope.noemployee=noemployee;
+    $scope.netvalue=netvalue;
+    $scope.updatebtn=false;
+    $scope.addbtn=true;
+
+
+
+
+
+
+ }
+
+
+ $scope.clear=function(){
+
+
+$scope.updatebtn=true;
+
+$scope.addbtn=false;
+
+$scope.branchID="";
+$scope.branchname="";
+    $scope.location="";
+    $scope.phonenumber="";
+    $scope.address="";
+    $scope.Email="";
+    $scope.manager="";
+    $scope.noemployee="";
+    $scope.netvalue="";
+
+
+
+
+
+ }
+
+
+
+
+
+ $scope.branchup2=function(){
+
+   
+     $http.post("updatebranch.php", {
+      'branchID':$scope.branchID,
+    'branchname':$scope.branchname,
+    'location':$scope.location,
+    'phonenumber':$scope.phonenumber,
+    'address':$scope.address,
+    'Email':$scope.Email,
+    'manager':$scope.manager,
+    'noemployee':$scope.noemployee,
+    'netvalue':$scope.netvalue,
+    
+
+
+})        
+
+  .then(function (response) {
+   
+    
+
+
+    $scope.showbranch();
+
+    $scope.updatebtn=true;
+    $scope.addbtn=false;
+
+
+    $scope.branchID="";
+$scope.branchname="";
+    $scope.location="";
+    $scope.phonenumber="";
+    $scope.address="";
+    $scope.Email="";
+    $scope.manager="";
+    $scope.noemployee="";
+    $scope.netvalue="";
+
+    $scope.updatetask=false;
+
+
+
+
+   
+
+
+});
+
+
+
+
+
+
+ }
+
+
+
+})
+
+
+
+
+
+</script>
+
+</body>
+</html>
