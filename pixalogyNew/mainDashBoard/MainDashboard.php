@@ -1,3 +1,37 @@
+
+<?php 
+
+session_start();
+
+if(isset($_SESSION['acc']))
+{
+    
+    session_destroy();
+}
+
+else
+{
+    header("location:../index.html");
+}
+
+
+
+
+
+
+ ?>
+
+
+
+
+
+
+
+
+
+
+
+
 <html lang="en">
 <head>
   <title>Bootstrap Example</title>

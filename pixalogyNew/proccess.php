@@ -23,6 +23,19 @@ session_start();
         		$_SESSION['acc']=$Account;
 
         		header("location:lowPermission/low.php");
+            }
+            else if($Permissions=='High')
+        	{
+        		$_SESSION['acc']=$Account;
+
+        		header("location:mainDashBoard/MainDashBoard.php");
+            }
+            
+            else if($Permissions=='Mid')
+        	{
+        		$_SESSION['acc']=$Account;
+
+        		header("location:MidPermission/Mid.php");
         	}
 
         	
@@ -33,7 +46,7 @@ session_start();
         }
         else
         {
-        	echo "no";
+        	header("location:index.html");
         }
 
 
