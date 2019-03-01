@@ -6,7 +6,7 @@ session_start();
 if(isset($_SESSION['acc']))
 {
     $acc = $_SESSION['acc'];
-    //session_destroy();
+    
 }
 
 else
@@ -16,7 +16,7 @@ else
 }
 
 
-
+//session_destroy();
 
  ?>
 
@@ -32,7 +32,8 @@ else
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 
 <body>
-<div class="container" ng-controller="lowacc" ng-init="show('<?php echo $acc?>')" >
+    <br><br>
+<div class="container" ng-controller="lowacc" ng-init="show('<?php echo $acc?>')" style="background-color:#F8F9F9  " >
 
   <h3>Account Details</h3><br><hr><br>
   <p>Account:</P>
@@ -51,21 +52,19 @@ else
   <p>Department:</P>
   <input type="text"  class="form-control"   disabled  ng-model="Department"><br><br>
 
+  <div class="row">
+  <div class="col-sm-4">
+
+  <button type="submit" class="btn btn-primary" >Sells Management</button>
+</div>
 
 
 
-  <nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand">Your Permissions</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <li ><a href="MainDBSystemacc/MainDBSystemacc.html">SELLS MANAGEMENT</a></li>
-     
 
-    </ul>
   </div>
-</nav>
+
+
+  
   
 
 
