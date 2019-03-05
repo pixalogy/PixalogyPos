@@ -53,7 +53,7 @@ session_start();
 <div class="well well-sm"><h5>User online: <?php echo $_SESSION['empname']?></h5> Date:<?php echo  date("Y/m/d") ?></div>
 </div>
 <div class="row" ng-init="showitemid()">
-<select class="form-control" ng-model="itemidf">
+<select class="form-control" ng-model="itemidf" ng-change="change()">
   <option ng-repeat="x in itemid">{{x.ItemID}}</option>
  
 </select>
@@ -66,25 +66,31 @@ session_start();
 <div class="col-md-6">
 <div class="row">
   <div class="col-md-4">
-  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	Item Name.."  ng-model="	ItemName" required>
+    Item Name:
+  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	Item Name.."  ng-model="	ItemName" required disabled>
   </div>
   <div class="col-md-4">
-  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	Product Name.."  ng-model="	ProductName" required>
+    Product Name:
+  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	Product Name.."  ng-model="	ProductName" disabled required>
   </div>
   <div class="col-md-4">
-  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	companyName.." ng-model="companyName" required>
+    Company Name:
+  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	companyName.." ng-model="companyName" disabled required>
   </div>
 </div><br>
 
 <div class="row">
   <div class="col-md-4">
-  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	Item Type.."  ng-model="	ItemType" required>
+    Type:
+  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	Item Type.."  ng-model="	ItemType" disabled required>
   </div>
   <div class="col-md-4">
-  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	Sell Price.."  ng-model="	SellPrice" required>
+    Price:
+  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	Sell Price.."  ng-model="	SellPrice" disabled required>
   </div>
   <div class="col-md-4">
-  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	Qty.." ng-model="Qty" required>
+    Qty:
+  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	Qty.." ng-model="Qty"  required>
   </div>
 </div>
 </div>
@@ -116,6 +122,42 @@ $scope.showitemid=function(){
 
 
 }
+
+$scope.change=function(){
+
+  $http.post("itemdetails.php", {
+    'itemidf':$scope.itemidf,
+
+
+})        
+
+  .then(function (response) {
+     
+    $scope.details =response. data; 
+
+    console.log( $scope.details);
+
+    $scope.ItemName=$scope.details.ItemName;
+    $scope.ProductName=$scope.details.ProductName;
+    $scope.companyName=$scope.details.companyName;
+    $scope.ItemType=$scope.details.ItemType;
+    $scope.SellPrice=$scope.details.SellPrice;
+
+
+    
+    
+   
+  
+     
+
+
+
+})
+
+
+
+}
+
 
 
 
