@@ -205,10 +205,10 @@
   </div>
   <select class="custom-select" id="inputGroupSelect01" ng-model="itemtype" required>
     
-    <option value="1" ></option>
-    <option value="2">SizeNeed</option>
-    <option value="3">UnitNeed</option>
-    <option value="4">Other</option>
+    <option  ></option>
+    <option >SizeNeed</option>
+    <option >UnitNeed</option>
+    <option >Other</option>
   </select>
 </div>
 
@@ -1240,7 +1240,7 @@ var app = angular.module("item", []);
 
 
 
-       if($scope.itemtype== '2')
+       if($scope.itemtype== 'SizeNeed')
        {
         $scope.sizeitem=false;
        
@@ -1250,7 +1250,7 @@ var app = angular.module("item", []);
        {
          $scope.sizeitem=true;
        }
-       if ($scope.itemtype=='3') {
+       if ($scope.itemtype=='UnitNeed') {
          
          $scope.unitneedtask=false;
 
@@ -1259,7 +1259,7 @@ var app = angular.module("item", []);
        {
          $scope.unitneedtask=true;
        }
-       if($scope.itemtype=='4')
+       if($scope.itemtype=='Other')
        {
         $scope.othertask=false;
        }
@@ -1941,6 +1941,7 @@ $scope.otherprocal="";
 
 
 $scope.showothers();
+alert('fdsfsfs');
    
      
 

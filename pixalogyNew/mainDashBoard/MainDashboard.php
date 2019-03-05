@@ -1,18 +1,18 @@
 
 <?php 
 
-session_start();
+//session_start();
 
-if(isset($_SESSION['acc']))
-{
+//if(isset($_SESSION['acc']))
+//{
     
-    session_destroy();
-}
+    //session_destroy();
+//}
 
-else
-{
-    header("location:../index.html");
-}
+//else
+//{
+    //header("location:../index.html");
+//}
 
 
 

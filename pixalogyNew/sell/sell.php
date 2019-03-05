@@ -100,6 +100,7 @@ session_start();
 
 <div class="alert alert-info">
   <h3>Total Amount:</h3>
+  <h3>Item Status:</h3>
   
 
 </div>
