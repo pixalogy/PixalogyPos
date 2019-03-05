@@ -12,7 +12,7 @@ session_start();
 ?>
 
 <!DOCTYPE html>
-<html>
+<html ng-app="sell">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,7 +27,7 @@ session_start();
 <body>
 <br><br>
 
-<div class="container">
+<div class="container" ng-controller="sellfind">
 <div class="row">
 
 <div class="col-md-5">
@@ -52,9 +52,9 @@ session_start();
 <div class="row">
 <div class="well well-sm"><h5>User online: <?php echo $_SESSION['empname']?></h5> Date:<?php echo  date("Y/m/d") ?></div>
 </div>
-<div class="row">
-<select class="form-control">
-  <option>Volvo</option>
+<div class="row" ng-init="showitemid()">
+<select class="form-control" ng-model="itemidf">
+  <option ng-repeat="x in itemid">{{x.ItemID}}</option>
  
 </select>
   
@@ -98,6 +98,44 @@ session_start();
 
 
 </div>
+
+
+<script>
+
+var app = angular.module("sell", []);
+
+app.controller("sellfind", function($scope,$http) {
+
+$scope.showitemid=function(){
+
+  $http.get("showitemid.php")
+   .then(function (response) {$scope.itemid = response.data;});
+
+
+
+
+
+}
+
+
+
+
+
+
+
+})
+
+
+
+
+
+
+  </script>
+
+
+
+
+
     
 
 </body>
