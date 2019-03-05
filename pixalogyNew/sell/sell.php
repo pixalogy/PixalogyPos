@@ -25,9 +25,9 @@ session_start();
   
 </head>
 <body>
-<br><br>
+<br>
 
-<div class="container" ng-controller="sellfind">
+<div class="container" ng-controller="sellfind" style="background-color:#EAEDED;">
 <div class="row">
 
 <div class="col-md-5">
@@ -63,11 +63,11 @@ session_start();
 
 <div class="row">
 
-<div class="col-md-6">
-<div class="row">
-  <div class="col-md-4">
+<div class="col-md-12"   >
+<div class="row"   >
+  <div class="col-md-4" >
     Item Name:
-  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	Item Name.."  ng-model="	ItemName" required disabled>
+  <input type="text" class="form-control"   aria-describedby="emailHelp" placeholder="	Item Name.."  ng-model="	ItemName" required disabled>
   </div>
   <div class="col-md-4">
     Product Name:
@@ -79,7 +79,7 @@ session_start();
   </div>
 </div><br>
 
-<div class="row">
+<div class="row" >
   <div class="col-md-4">
     Type:
   <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	Item Type.."  ng-model="	ItemType" disabled required>
@@ -92,13 +92,69 @@ session_start();
     Qty:
   <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	Qty.." ng-model="Qty"  required>
   </div>
-</div>
-</div>
-<div class="class="col-md-6>
+</div><br>
+
+
+<button type="button" class="btn btn-primary">Add</button><br><br><br>
+
+
+<div class="alert alert-info">
+  <h3>Total Amount:</h3>
   
+
 </div>
+
+
+
+
+
+
+
+
+<table class="table table-striped table-dark">
+  <thead>
+    <tr>
+      <th scope="col">Add</th>
+      <th scope="col">Delete</th>
+      <th scope="col">Update</th>
+      <th scope="col">ItemName</th>
+      <th scope="col">ProductName</th>
+      <th scope="col">qty</th>
+      <th scope="col">Total Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
+
+</div>
+
+
+</div><br>
+
+
+
   
 </div><br>
+
 
 
 
