@@ -5,8 +5,8 @@ session_start();
  $_SESSION['acc'];
  $_SESSION['empname'];
  $_SESSION['des'];
- $_SESSION['branchname'];
- $_SESSION['branchid'];
+ $bna=$_SESSION['branchname'];
+ $brn=$_SESSION['branchid'];
   $_SESSION['department'];
 //<h3>Welcome <?php echo $_SESSION['acc']
 ?>
@@ -52,9 +52,9 @@ session_start();
 <div class="row">
 <div class="well well-sm"><h5>User online: <?php echo $_SESSION['empname']?></h5> Date:<?php echo  date("Y/m/d") ?></div>
 </div>
-<div class="row" ng-init="showitemid()">
+<div class="row" ng-init="showitemid('<?php echo $brn?>')">
 <select class="form-control" ng-model="itemidf" ng-change="change()">
-  <option ng-repeat="x in itemid">{{x.ItemID}}</option>
+<option ng-repeat="x in itemid track by $index">{{x.ItemID}}</option>
  
 </select>
   
@@ -62,7 +62,7 @@ session_start();
 
 
 <div class="row">
-
+<form name="selladd">
 <div class="col-md-12"   >
 <div class="row"   >
   <div class="col-md-4" >
@@ -86,7 +86,7 @@ session_start();
   </div>
   <div class="col-md-4">
     Price:
-  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	Sell Price.."  ng-model="	SellPrice" disabled required>
+  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	Sell Price.."  ng-model="	SellPrice"  required>
   </div>
   <div class="col-md-4">
     Qty:
@@ -95,7 +95,7 @@ session_start();
 </div><br>
 
 
-<button type="button" class="btn btn-primary">Add</button><br><br><br>
+<button type="button" class="btn btn-primary" ng-click="addselltem('<?php echo $brn?>','<?php echo $bna?>')">Add</button><br><br><br>
 
 
 <div class="alert alert-info">
@@ -158,7 +158,7 @@ session_start();
 
 
 
-
+</form>
 
 </div>
 
@@ -169,12 +169,27 @@ var app = angular.module("sell", []);
 
 app.controller("sellfind", function($scope,$http) {
 
-$scope.showitemid=function(){
+$scope.showitemid=function(brn){
 
-  $http.get("showitemid.php")
-   .then(function (response) {$scope.itemid = response.data;});
+ 
+
+  $http.post("showitemid.php", {
+    'itemidf':$scope.itemidf,
+    'brn':brn,
+    
 
 
+})        
+
+  .then(function (response) {
+     
+  
+    $scope.itemid = response.data;
+
+    
+
+
+})
 
 
 
@@ -184,6 +199,7 @@ $scope.change=function(){
 
   $http.post("itemdetails.php", {
     'itemidf':$scope.itemidf,
+    
 
 
 })        
@@ -210,6 +226,15 @@ $scope.change=function(){
 
 
 })
+
+
+
+}
+
+
+$scope.addselltem=function(brn,bna){
+
+
 
 
 

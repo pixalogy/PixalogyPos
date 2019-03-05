@@ -6,11 +6,13 @@
 
 
 $conn = new mysqli("localhost", "root", "", "pixalogypos");
+$data = json_decode(file_get_contents("php://input"));
+$brn = mysqli_real_escape_string($conn,$data->brn);
 
 $out=array();
 
 
-$price = mysqli_query($conn,"SELECT * FROM `sizeavip` ");
+$price = mysqli_query($conn,"SELECT `ItemID` FROM `sizeavip`  WHERE 	BranchID='".$brn."'");
 
 while($result = mysqli_fetch_array($price))
 {
@@ -19,7 +21,7 @@ while($result = mysqli_fetch_array($price))
 
 }
 
-$price2 = mysqli_query($conn,"SELECT * FROM `unitavip`  ");
+$price2 = mysqli_query($conn,"SELECT `ItemID` FROM `unitavip` WHERE 	BranchID='".$brn."'  ");
 
 while($result2 = mysqli_fetch_array($price2))
 {
@@ -28,7 +30,7 @@ while($result2 = mysqli_fetch_array($price2))
 
 }
 
-$price3 = mysqli_query($conn,"SELECT * FROM `otheravip` ");
+$price3 = mysqli_query($conn,"SELECT `ItemID` FROM `otheravip` WHERE 	BranchID='".$brn."' ");
 
 while($result3 = mysqli_fetch_array($price3))
 {
