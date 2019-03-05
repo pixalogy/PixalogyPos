@@ -52,6 +52,48 @@ session_start();
 <div class="row">
 <div class="well well-sm"><h5>User online: <?php echo $_SESSION['empname']?></h5> Date:<?php echo  date("Y/m/d") ?></div>
 </div>
+<div class="row">
+<select class="form-control">
+  <option>Volvo</option>
+ 
+</select>
+  
+</div><br>
+
+
+<div class="row">
+
+<div class="col-md-6">
+<div class="row">
+  <div class="col-md-4">
+  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	Item Name.."  ng-model="	ItemName" required>
+  </div>
+  <div class="col-md-4">
+  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	Product Name.."  ng-model="	ProductName" required>
+  </div>
+  <div class="col-md-4">
+  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	companyName.." ng-model="companyName" required>
+  </div>
+</div><br>
+
+<div class="row">
+  <div class="col-md-4">
+  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	Item Type.."  ng-model="	ItemType" required>
+  </div>
+  <div class="col-md-4">
+  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	Sell Price.."  ng-model="	SellPrice" required>
+  </div>
+  <div class="col-md-4">
+  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	Qty.." ng-model="Qty" required>
+  </div>
+</div>
+</div>
+<div class="class="col-md-6>
+  
+</div>
+  
+</div><br>
+
 
 
 
