@@ -23,14 +23,15 @@ $date=date("Y/m/d");
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
   
+
 </head>
 <body>
 <br>
 
-<div class="container" ng-controller="sellfind" style="background-color:#EAEDED;">
+<div class="container-fluid" ng-controller="sellfind" style="background-color:#F8F9F9; max-width:1500px">
 <div class="row">
 
-<div class="col-md-5">
+<div class="col-md-12" style="background-color:#2471A3    ; color:white;">
 
 <h2>Sell Management</h2>
 
@@ -43,7 +44,7 @@ $date=date("Y/m/d");
 <div class="col-md-2">
 
 
-<img src="../backimg/s.png" class="img-fluid" alt="Responsive image">
+
 </div>
 
 </div><hr>
@@ -99,8 +100,8 @@ $date=date("Y/m/d");
 
 
 <div class="alert alert-info">
-  <h3>Total Amount:</h3>
-  <h3>Item Status:</h3>
+  <h3>Total Amount:</h3><h4>RS:{{displaysum}}</h4>
+  
   
 
 </div>
@@ -112,9 +113,9 @@ $date=date("Y/m/d");
 
 
 
-<table class="table table-striped table-dark">
+<table class="table table-bordered" ng-init="showselltem()">
   <thead>
-    <tr>
+    <tr style="background-color:#2471A3  ; color:white; font-size:16px;">
       <th scope="col">Add</th>
       <th scope="col">Delete</th>
       <th scope="col">Update</th>
@@ -125,24 +126,17 @@ $date=date("Y/m/d");
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
+    <tr ng-repeat="x in namessell">
+      <th><button type="button" class="btn btn-dark">Add</button></th>
+      <th><button type="button" class="btn btn-danger">Delete</button></th>
+      <th><button type="button" class="btn btn-success">Update</button></th>
+      <th>{{x.ItemName}}</th>
+      <th>{{x.ProductName}}</th>
+      <th>{{x.qty}}</th>
+      <th>{{x.TotalPrice}}</th>
+      
     </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
+   
   </tbody>
 </table>
 
@@ -253,19 +247,19 @@ $scope.addselltem=function(brn,bna,emp,date){
     'ItemName': $scope.ItemName,
     'ProductName': $scope.ProductName,
     'Qty': $scope.Qty,
-    'Qty': $scope.Qty,
+    'total': total,
 
 })        
 
   .then(function (response) {
      
     
-     
+    $scope.sum =response. data; 
    
-
+   $scope.displaysum=$scope.sum;
 
     
-    
+    $scope.showselltem();
    
   
      
@@ -274,6 +268,19 @@ $scope.addselltem=function(brn,bna,emp,date){
 
 })
 
+
+
+
+
+}
+
+
+$scope.showselltem=function(){
+
+
+    
+  $http.get("showselltem.php")
+   .then(function (response) {$scope.namessell = response.data.records;});
 
 
 
