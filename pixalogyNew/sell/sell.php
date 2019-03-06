@@ -1,9 +1,9 @@
 <?php
 
 session_start();
-
+$date=date("Y/m/d");
  $_SESSION['acc'];
- $_SESSION['empname'];
+ $emp=$_SESSION['empname'];
  $_SESSION['des'];
  $bna=$_SESSION['branchname'];
  $brn=$_SESSION['branchid'];
@@ -50,7 +50,7 @@ session_start();
 
 
 <div class="row">
-<div class="well well-sm"><h5>User online: <?php echo $_SESSION['empname']?></h5> Date:<?php echo  date("Y/m/d") ?></div>
+<div class="well well-sm"><h5>User online: <?php echo $_SESSION['empname']?></h5> Date:<?php echo  $date ?></div>
 </div>
 <div class="row" ng-init="showitemid('<?php echo $brn?>')">
 <select class="form-control" ng-model="itemidf" ng-change="change()">
@@ -82,7 +82,7 @@ session_start();
 <div class="row" >
   <div class="col-md-4">
     Type:
-  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	Item Type.."  ng-model="	ItemType" disabled required>
+  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	Item Type.."  ng-model="	ItemType" disabled required ng-change="QTY()">
   </div>
   <div class="col-md-4">
     Price:
@@ -90,12 +90,12 @@ session_start();
   </div>
   <div class="col-md-4">
     Qty:
-  <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="	Qty.." ng-model="Qty"  required>
+  <input type="Number" class="form-control"  aria-describedby="emailHelp" placeholder="	Qty.." ng-model="Qty"  required ng-disabled="new">
   </div>
 </div><br>
 
 
-<button type="button" class="btn btn-primary" ng-click="addselltem('<?php echo $brn?>','<?php echo $bna?>')">Add</button><br><br><br>
+<button type="button" class="btn btn-primary" ng-click="addselltem('<?php echo $brn?>','<?php echo $bna?>','<?php echo $emp?>','<?php echo  $date ?>')" ng-disabled="selladd.$invalid">Add</button><br><br><br>
 
 
 <div class="alert alert-info">
@@ -232,13 +232,55 @@ $scope.change=function(){
 }
 
 
-$scope.addselltem=function(brn,bna){
+$scope.addselltem=function(brn,bna,emp,date){
+ var total;
+  if($scope.ItemType=="UnitNeed")
+  {
+    total=$scope.SellPrice;
+    
+  }
+  else
+  {
+    total=$scope.SellPrice*$scope.Qty;
+  }
+
+    
+  $http.post("itemselltem.php", {
+    'brn':brn,
+    'bna':bna,
+    'emp':emp,
+    'date':date,
+    'ItemName': $scope.ItemName,
+    'ProductName': $scope.ProductName,
+    'Qty': $scope.Qty,
+    'Qty': $scope.Qty,
+
+})        
+
+  .then(function (response) {
+     
+    
+     
+   
+
+
+    
+    
+   
+  
+     
+
+
+
+})
 
 
 
 
 
 }
+
+
 
 
 
